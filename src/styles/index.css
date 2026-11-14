@@ -1,0 +1,348 @@
+@import 'tailwindcss';
+@import '@fontsource/sancreek/400.css';
+@import '@fontsource-variable/libre-franklin/wght.css';
+
+/*
+  Palette: the logo's two colours, plus greys mixed from them.
+  The number after each grey is the share of bone mixed into ink.
+  Contrast figures are in DESIGN.md. Do not add hues here.
+*/
+@theme {
+  --color-*: initial;
+  --color-ink: #0b0b0b;
+  --color-soot: #191919; /* 6% */
+  --color-coal: #30302f; /* 16% */
+  --color-iron: #565554; /* 32% */
+  --color-pewter: #696866; /* 40% */
+  --color-ash: #8e8d8a; /* 56% */
+  --color-smoke: #c6c5c1; /* 80% */
+  --color-bone: #f5f3ee;
+  --color-transparent: transparent;
+  --color-current: currentColor;
+
+  /* Functional only (form validation). Never used for decoration. */
+  --color-alert-on-ink: #ff8a7a;
+  --color-alert-on-bone: #b3261e;
+
+  --font-*: initial;
+  --font-display: 'Sancreek', 'Georgia', serif;
+  --font-text: 'Libre Franklin Variable', 'Libre Franklin', 'Arial', sans-serif;
+
+  --text-*: initial;
+  --text-micro: 0.75rem;
+  --text-micro--line-height: 1.3;
+  --text-micro--letter-spacing: 0.16em;
+  --text-small: 0.875rem;
+  --text-small--line-height: 1.5;
+  --text-body: 1.0625rem;
+  --text-body--line-height: 1.6;
+  --text-lead: clamp(1.1875rem, 1.05rem + 0.6vw, 1.4375rem);
+  --text-lead--line-height: 1.45;
+  --text-h3: clamp(1.375rem, 1.1rem + 1.2vw, 1.875rem);
+  --text-h3--line-height: 1.15;
+  --text-h2: clamp(2.125rem, 1.4rem + 3.2vw, 4rem);
+  --text-h2--line-height: 0.98;
+  --text-h1: clamp(2.875rem, 1.5rem + 6.4vw, 7rem);
+  --text-h1--line-height: 0.92;
+  --text-name: clamp(3.5rem, 0.8rem + 12.5vw, 11.5rem);
+  --text-name--line-height: 0.86;
+
+  --radius-*: initial;
+  --radius-hair: 2px;
+
+  --shadow-*: initial;
+  --drop-shadow-*: initial;
+  --blur-*: initial;
+
+  --breakpoint-*: initial;
+  --breakpoint-sm: 30rem; /* 480 */
+  --breakpoint-md: 48rem; /* 768 */
+  --breakpoint-lg: 64rem; /* 1024 */
+  --breakpoint-xl: 90rem; /* 1440 */
+
+  --ease-blade: cubic-bezier(0.7, 0, 0.2, 1);
+  --ease-settle: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+:root {
+  --gutter: clamp(1rem, 0.6rem + 1.6vw, 1.5rem);
+  --margin: clamp(1rem, -0.2rem + 5vw, 4rem);
+  --section: clamp(4.5rem, 3rem + 6vw, 9rem);
+  --measure: 66ch;
+  color-scheme: dark;
+}
+
+@layer base {
+  html {
+    background-color: var(--color-ink);
+    color: var(--color-bone);
+    font-family: var(--font-text);
+    font-size: 100%;
+    font-optical-sizing: auto;
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    min-height: 100dvh;
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+    font-weight: 380;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background-color: var(--color-bone);
+    color: var(--color-ink);
+  }
+
+  /*
+    Focus ring takes the colour opposite the ground it sits on, never the element's own
+    text colour: a bone button has ink text, and an ink ring outside it on an ink page
+    would be invisible.
+  */
+  :root {
+    --focus: var(--color-bone);
+  }
+
+  [data-ground='bone'] {
+    --focus: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 3px;
+  }
+
+  img,
+  svg {
+    display: block;
+    max-width: 100%;
+  }
+
+  img {
+    height: auto;
+  }
+
+  a {
+    color: inherit;
+  }
+
+  [data-ground='bone'] {
+    background-color: var(--color-bone);
+    color: var(--color-ink);
+    color-scheme: light;
+  }
+}
+
+@layer components {
+  .shell {
+    width: 100%;
+    max-width: 90rem;
+    margin-inline: auto;
+    padding-inline: var(--margin);
+  }
+
+  .grid-page {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    column-gap: var(--gutter);
+  }
+
+  @media (min-width: 48rem) {
+    .grid-page {
+      grid-template-columns: repeat(8, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .grid-page {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+    }
+  }
+
+  /* Spaced capitals, as in the "THE SOUTHERN REBELLION / TATTOO COMPANY" lockup on the
+     studio's own graphics. Only for the wordmark. Everything else uses .ui. */
+  .lockup {
+    font-size: var(--text-micro);
+    line-height: var(--text-micro--line-height);
+    letter-spacing: var(--text-micro--letter-spacing);
+    text-transform: uppercase;
+    font-weight: 560;
+  }
+
+  /* Interface text: nav, buttons, form groups, table labels. Sentence case. */
+  .ui {
+    font-size: var(--text-small);
+    line-height: 1.4;
+    font-weight: 600;
+  }
+
+  .measure {
+    max-width: var(--measure);
+  }
+
+  .num {
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+
+  .link {
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.22em;
+    transition: text-decoration-thickness 160ms var(--ease-settle);
+  }
+
+  .link:hover {
+    text-decoration-thickness: 2px;
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .todo {
+    font-family: var(--font-text);
+    font-size: var(--text-small);
+    font-weight: 500;
+    border: 1px dashed currentColor;
+    padding: 0.25em 0.6em;
+    display: inline-block;
+  }
+}
+
+/* Motion off: system setting or the footer toggle. */
+html[data-motion='reduced'] *,
+html[data-motion='reduced'] *::before,
+html[data-motion='reduced'] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
+html.menu-open {
+  overflow: hidden;
+}
+
+
+.lightbox::backdrop {
+  background-color: var(--color-ink);
+}
+
+/*
+  The blade: page transition panel. A dagger point leads its bottom edge as it
+  passes down the screen. Hidden until the motion engine moves it.
+*/
+.blade {
+  position: fixed;
+  inset-inline: 0;
+  top: 0;
+  z-index: 70;
+  height: 115vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-soot);
+  clip-path: polygon(0 0, 100% 0, 100% 87%, 50% 100%, 0 87%);
+  /* No CSS transform here: GSAP would read it as an offset and add its own on top. */
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/*
+  The fan (home hero), in pure CSS so the first page load runs no motion JavaScript.
+  public/boot.js sets data-motion="full" before first paint; with motion reduced, or
+  if boot.js fails, none of this applies and the hero is simply there.
+  The daggers drop in left, right, centre; then the circle opens onto the work.
+*/
+html[data-motion='full'] [data-fan='dagger'] {
+  animation: tsr-fan-drop 0.5s var(--ease-settle) both;
+}
+
+html[data-motion='full'] [data-fan='dagger'][data-dagger='right'] {
+  animation-delay: 0.12s;
+}
+
+html[data-motion='full'] [data-fan='dagger'][data-dagger='centre'] {
+  animation-delay: 0.24s;
+}
+
+html[data-motion='full'] [data-fan='disc'] {
+  animation: tsr-fan-open 0.9s var(--ease-blade) 0.3s both;
+}
+
+@keyframes tsr-fan-drop {
+  from {
+    opacity: 0;
+    transform: translateY(-70px);
+  }
+}
+
+@keyframes tsr-fan-open {
+  from {
+    clip-path: circle(14% at 50% 50%);
+  }
+  to {
+    clip-path: circle(50% at 50% 50%);
+  }
+}
+
+/*
+  Reveals ("cut" and "draw"), driven by src/lib/reveals.ts with IntersectionObserver.
+  Only elements the script marks .reveal-out start hidden: content below the fold on
+  first load, or everything behind the blade after a navigation. No script, no hiding.
+*/
+html[data-motion='full'] [data-reveal='cut'] {
+  transition: clip-path 0.9s var(--ease-blade);
+}
+
+html[data-motion='full'] [data-reveal='cut'].reveal-out {
+  clip-path: inset(0 0 100% 0);
+}
+
+html[data-motion='full'] [data-reveal^='draw'] {
+  transition: transform 0.8s var(--ease-blade);
+}
+
+html[data-motion='full'] [data-reveal^='draw'].reveal-out {
+  transform: scaleX(0);
+}
+
+[data-reveal='draw-start'] {
+  transform-origin: 0% 50%;
+}
+
+[data-reveal='draw-end'] {
+  transform-origin: 100% 50%;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}

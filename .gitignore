@@ -1,0 +1,15 @@
+node_modules
+dist
+.env
+.env.*
+*.local
+.netlify
+src/manifest/
+public/img/
+.DS_Store
+Thumbs.db
+dist-ssr
+
+# Client source material (Instagram screenshots with clients' faces and follower names).
+# Personal information under POPIA: keep it out of the public repository.
+brief/

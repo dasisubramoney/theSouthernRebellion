@@ -1,0 +1,110 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "24.15.0"
+
+# ---------------------------------------------------------------------------
+# Redirects. Order matters: Netlify uses the first rule that matches.
+# ---------------------------------------------------------------------------
+
+# Canonical host is the apex domain.
+[[redirects]]
+  from = "https://www.thesouthernrebellion.co.za/*"
+  to = "https://thesouthernrebellion.co.za/:splat"
+  status = 301
+  force = true
+
+# The old site was a WordPress "Coming Soon" page with no content URLs.
+# These catch WordPress paths that bots and old bookmarks still request.
+[[redirects]]
+  from = "/wp-admin/*"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/wp-login.php"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/wp-content/*"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/feed/*"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/sitemap_index.xml"
+  to = "/sitemap.xml"
+  status = 301
+  force = true
+
+# Short links for Instagram bios.
+[[redirects]]
+  from = "/booking"
+  to = "/book"
+  status = 301
+
+[[redirects]]
+  from = "/bookings"
+  to = "/book"
+  status = 301
+
+[[redirects]]
+  from = "/contact"
+  to = "/visit"
+  status = 301
+
+# Fallback. Every real route is prerendered to its own HTML file, so this only
+# catches unknown URLs. It serves the 404 page with a 404 status rather than
+# index.html with a 200 (see README, "Routing").
+[[redirects]]
+  from = "/*"
+  to = "/404.html"
+  status = 404
+
+# ---------------------------------------------------------------------------
+# Headers
+# ---------------------------------------------------------------------------
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Content-Security-Policy = "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; manifest-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests"
+    Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "accelerometer=(), autoplay=(), browsing-topics=(), camera=(), display-capture=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()"
+    Cross-Origin-Opener-Policy = "same-origin"
+    Cross-Origin-Resource-Policy = "same-origin"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Image filenames include a hash of the source file, so they never change in place.
+[[headers]]
+  for = "/img/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "no-cache"

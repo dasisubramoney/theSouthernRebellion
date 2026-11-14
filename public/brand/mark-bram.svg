@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-labelledby="t">
+  <title id="t">Bram's dagger mark</title>
+  <circle cx="100" cy="100" r="100" fill="#0B0B0B"/>
+  <g fill="#F5F3EE">
+    <circle cx="100" cy="17" r="4.6"/>
+    <path d="M100 21C108 28 108 52 100 59C92 52 92 28 100 21Z"/>
+    <path d="M70 66Q100 54 130 66" fill="none" stroke="#F5F3EE" stroke-width="4.4" stroke-linecap="round"/>
+    <circle cx="67.5" cy="67.5" r="5"/>
+    <circle cx="132.5" cy="67.5" r="5"/>
+    <path d="M100 190 109 76 111 71 89 71 91 76Z"/>
+    <g id="f">
+      <path d="M20 86C52 74 86 98 98 166C82 126 54 104 20 86Z"/>
+      <path d="M46 115C68 109 88 128 98 166C85 141 66 124 46 115Z"/>
+    </g>
+    <use href="#f" transform="matrix(-1 0 0 1 200 0)"/>
+  </g>
+</svg>

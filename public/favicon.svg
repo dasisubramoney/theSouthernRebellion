@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-labelledby="t">
+  <title id="t">The Southern Rebellion Tattoo Company</title>
+  <defs>
+    <g id="d">
+      <path d="M0 0 9 -103 10.5 -108 -10.5 -108 -9 -103Z"/>
+      <path d="M0 -112C8.5 -119 8.5 -143 0 -149C-8.5 -143 -8.5 -119 0 -112Z"/>
+      <path d="M-26 -110Q0 -119 26 -110" fill="none" stroke="#F5F3EE" stroke-width="5" stroke-linecap="round"/>
+      <circle cx="-28.5" cy="-107.5" r="5.2"/>
+      <circle cx="28.5" cy="-107.5" r="5.2"/>
+      <circle cx="0" cy="-152" r="4.4"/>
+    </g>
+  </defs>
+  <circle cx="100" cy="100" r="100" fill="#0B0B0B"/>
+  <g fill="#F5F3EE">
+    <use href="#d" transform="translate(100 176) rotate(-27.5) scale(.885)"/>
+    <use href="#d" transform="translate(100 176) rotate(27.5) scale(.885)"/>
+    <use href="#d" transform="translate(100 176)"/>
+  </g>
+</svg>

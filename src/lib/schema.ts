@@ -1,4 +1,3 @@
-import { publishedArtists } from '../content/artists';
 import { studio } from '../content/studio';
 import { known } from '../content/todo';
 import type { Artist } from '../content/types';
@@ -39,6 +38,7 @@ export function studioSchema() {
       addressCountry: studio.location.country,
     },
     sameAs: [instagramUrl(studio.instagram)],
-    employee: publishedArtists.map(artistPerson),
+    // The artists' Person entries (artistPerson, above) are left out while there are no artist pages.
+    // To restore: add `employee: publishedArtists.map(artistPerson)` here once the pages are back.
   };
 }

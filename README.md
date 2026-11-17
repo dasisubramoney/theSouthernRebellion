@@ -81,7 +81,8 @@ scripts/
   list-todos.mjs       CLIENT-TODO.md
 src/
   content/             All site content (see "Editing content")
-  pages/               One file per route
+  pages/               One file per route: Home, Contact, Privacy, Sent, NotFound
+  components/sections/ The six home-page sections (Artists, Flash, Piercing, How to book, Aftercare, Visit)
   components/          brand/ (dagger, marks, frame), forms/, layout/, media/, portfolio/, ...
   motion/              engine.ts (GSAP, lazy), effects.ts (on/off switches)
   lib/                 Motion preference, reveals, Netlify form helpers, schema.org JSON-LD
@@ -94,12 +95,38 @@ netlify.toml           Build, redirects, security headers, caching
 
 ---
 
+## Site structure
+
+Two pages, plus two utility URLs:
+
+| URL | What it is |
+|---|---|
+| `/` | The hero, then six sections in this order: `#artists`, `#flash`, `#piercing`, `#how-to-book`, `#aftercare`, `#visit` (components in `src/components/sections/`, assembled in `src/pages/Home.tsx`) |
+| `/contact` | The booking enquiry form, then the question form under "Just have a question?" |
+| `/privacy`, `/sent` | The POPIA notice (linked from the footer and both forms), and the landing page for forms sent without JavaScript (`noindex`) |
+
+- Nav links are `/#<section>`. On `/` they scroll; from `/contact` they navigate and then scroll. `PageRoutes.tsx` does the scrolling (React Router does not scroll to a hash by itself), through Lenis where it runs, otherwise natively. Each section has `scroll-mt-24` so the sticky header does not cover its heading.
+- The nav highlight follows the scroll: `useSectionSpy` in `Home.tsx` publishes the section under the top of the viewport and the header reads it (`src/lib/activeSection.ts`).
+- Each section has one `h2`, and the page has one `h1` (the hero). Section ids are reserved: do not reuse `#piercing` and friends for anything inside a section (the aftercare sub-sections are `#aftercare-tattoo` and `#aftercare-piercing`).
+- The page's JSON-LD (`TattooParlor`) is on `/` only.
+
+### Restoring the artist pages
+
+`/artists` and `/artists/<slug>` were removed when the site went to two pages. All the data is still in `src/content/` (artists, portraits, portfolio, flash), and these are kept but unused: `BookingChannels`, `CornerFrame`, `BramMark`, and `artistPerson` in `src/lib/schema.ts`. (`PortfolioGrid` and `Lightbox` are still used by the Piercing section.) To bring the pages back:
+
+1. Recover the old route components from the commit before the restructure: `git show 81fe22c:src/pages/Artist.tsx` and `git show 81fe22c:src/pages/Artists.tsx` (the old Flash, Piercing, Book, Aftercare and Visit pages are there too).
+2. Put them back in `src/pages/`, then add the routes in `src/routes.tsx` (lazy import, `preloadRoute`, `staticPaths`) and `PageRoutes.tsx`.
+3. Re-add `employee: publishedArtists.map(artistPerson)` to `studioSchema()` in `src/lib/schema.ts` (the Person JSON-LD was dropped).
+4. Delete the `/artists` and `/artists/*` redirects in `netlify.toml`, and point the band's links at the artist pages.
+
+---
+
 ## Deploying to Netlify
 
 1. In Netlify, **Add new site → Import an existing project** and pick this repository. The build settings come from `netlify.toml` (`npm run build`, publish `dist`, Node 24.15.0). Leave the UI fields empty.
 2. In **Site configuration → Forms**, turn on **form detection**, then trigger a new deploy so Netlify registers the forms (see "Forms").
 3. Check the deploy preview before connecting the domain:
-   - Send a test enquiry with a reference image through `/book`, and a question through `/visit`. Both should appear under **Forms**.
+   - Send a test enquiry with a reference image, and a question, both through `/contact`. Both should appear under **Forms**.
    - Send one with JavaScript turned off in the browser. It should land on `/sent` and appear under `booking-unsure`. (This path was built to Netlify's docs but not yet tested on a live deploy.)
 
 The first build processes every image in `media/`. With hundreds of photos that takes minutes, and Netlify does it on every deploy, because `public/img/` is not committed. If builds get slow, cache `public/img` and `src/manifest` between builds (for example with `netlify-plugin-cache`). The pipeline already skips files whose output exists.
@@ -123,11 +150,12 @@ The domain currently points at a WordPress "Coming Soon" page with the studio's 
 The old site had no content URLs, so there is nothing to map one-to-one. `netlify.toml` covers:
 - www to apex
 - old WordPress paths (`/wp-admin/*`, `/wp-login.php`, `/wp-content/*`, `/feed/*`) and `/sitemap_index.xml`
-- short links for Instagram bios: `/booking` and `/bookings` → `/book`, `/contact` → `/visit`
+- the old booking URLs and the Instagram short links: `/book`, `/book/*`, `/booking`, `/bookings` → `/contact`
+- the old one-page-per-topic routes: `/artists`, `/artists/*`, `/flash`, `/piercing`, `/aftercare`, `/visit` → the matching section of `/` (for example `/visit` → `/#visit`, and `/artists/bram` → `/#artist-bram`). Whether Netlify keeps the `#fragment` in the redirect is unverified: check on a deploy preview, and if it does not, point them at `/`.
 
 ### Routing and 404s
 
-Each route is a real file (`dist/artists/theshen.html`, served at `/artists/theshen`), so there is no SPA fallback to `index.html`. Unknown URLs get `404.html` with a real 404 status. To add a page, add it to `src/routes.tsx` (the route, the lazy import, and `staticPaths` so it is prerendered and listed in the sitemap) and to `PageRoutes.tsx`.
+Each route is a real file (`dist/contact.html`, served at `/contact`), so there is no SPA fallback to `index.html`. Unknown URLs get `404.html` with a real 404 status. To add a page, add it to `src/routes.tsx` (the route, the lazy import, and `staticPaths` so it is prerendered and listed in the sitemap) and to `PageRoutes.tsx`.
 
 ---
 
@@ -137,8 +165,8 @@ Two forms, both Netlify Forms:
 
 | Form | Where | Netlify form name |
 |---|---|---|
-| Booking enquiry | `/book#enquiry` | `booking-<artist slug>`, `booking-unsure`, `booking-piercing` |
-| Question | `/visit` | `contact` |
+| Booking enquiry | `/contact` | `booking-<artist slug>`, `booking-unsure`, `booking-piercing` |
+| Question | `/contact` | `contact` |
 
 Netlify only routes notifications per form, not by field value. So the booking form submits under a different form name depending on the artist chosen. `prerender.mjs` writes a hidden copy of every form name into `dist/index.html` so Netlify registers them all. The names come from `src/content/forms.ts`, which reads the published artists, so a new artist gets a new form automatically.
 
@@ -196,7 +224,7 @@ Aftercare is medical guidance. Only put in text the studio has written or approv
 1. `src/content/types.ts`: add the slug to `ArtistSlug`, for example `| 'kimmy'`.
 2. `src/content/artists.ts`: add an entry (copy an existing one). Only state what the artist states publicly. Set `published: true` when the studio approves the page.
 3. `src/content/portfolio.ts` and `src/content/flash.ts`: add `slug: []` to each.
-4. Deploy. The artist page, the roster, the artists index, the sitemap, the schema.org data and a new `booking-<slug>` Netlify form all appear automatically.
+4. Deploy. The artist appears as a band in the Artists section (with a "Book with <name>" link to `/contact?artist=<slug>`), in the booking form's artist list, and gets a new `booking-<slug>` Netlify form, all automatically.
 5. In Netlify, add an email notification for the new `booking-<slug>` form.
 
 Kimmy already has an unpublished entry, waiting on the studio to confirm who she is.
@@ -230,7 +258,7 @@ In `flash.ts`, under the artist's slug. The image goes at `media/flash/<artist>/
 
 ### Saturday piercing special
 
-In `piercing.ts`: `special.enabled: false` takes it off the home page and the piercing page. The price, day, times and jewellery wording are in the same object. The jewellery wording is copied from the flyer ("standard silver titanium jewellery") and needs confirming.
+In `piercing.ts`: `special.enabled: false` takes it off the Piercing section. The price, day, times and jewellery wording are in the same object. The jewellery wording is copied from the flyer ("standard silver titanium jewellery") and needs confirming.
 
 ### Logo and colours
 

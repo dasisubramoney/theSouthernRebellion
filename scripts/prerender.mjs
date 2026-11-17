@@ -1,6 +1,8 @@
 // Renders every route in staticPaths to its own HTML file in dist/, writes
 // 404.html and sitemap.xml, injects font preloads, and adds a hidden copy of
 // every Netlify form to index.html so Netlify registers them at deploy.
+// The real forms render on /contact. They carry no data-netlify attribute, so Netlify
+// does not detect them there: each form name is registered exactly once, by the copy here.
 import { mkdir, readdir, readFile, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';

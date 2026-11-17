@@ -48,20 +48,60 @@
   status = 301
   force = true
 
-# Short links for Instagram bios.
+# The site is two pages: "/" (hero and six sections) and "/contact" (both forms).
+# Short links for Instagram bios, and the old booking URLs, go to the contact page.
+# (There is deliberately no rule for "/contact": it is a real page.)
+[[redirects]]
+  from = "/book"
+  to = "/contact"
+  status = 301
+
+[[redirects]]
+  from = "/book/*"
+  to = "/contact"
+  status = 301
+
 [[redirects]]
   from = "/booking"
-  to = "/book"
+  to = "/contact"
   status = 301
 
 [[redirects]]
   from = "/bookings"
-  to = "/book"
+  to = "/contact"
+  status = 301
+
+# The old one-page-per-topic routes now live as sections of "/".
+# NEEDS DEPLOY PREVIEW: check that Netlify keeps the #fragment in these Location headers
+# (curl -sI https://<preview>/visit). If it does not, change each "to" below to "/".
+[[redirects]]
+  from = "/artists"
+  to = "/#artists"
   status = 301
 
 [[redirects]]
-  from = "/contact"
-  to = "/visit"
+  from = "/artists/*"
+  to = "/#artist-:splat"
+  status = 301
+
+[[redirects]]
+  from = "/flash"
+  to = "/#flash"
+  status = 301
+
+[[redirects]]
+  from = "/piercing"
+  to = "/#piercing"
+  status = 301
+
+[[redirects]]
+  from = "/aftercare"
+  to = "/#aftercare"
+  status = 301
+
+[[redirects]]
+  from = "/visit"
+  to = "/#visit"
   status = 301
 
 # Fallback. Every real route is prerendered to its own HTML file, so this only

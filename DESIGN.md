@@ -8,7 +8,7 @@ The studio's own graphics set the direction: the "How to Book" post (grey Victor
 
 - **Base (from "Name Card"):** ink ground, bone type, Sancreek for names and page headings, Libre Franklin for everything else.
 - **Flash and portfolio grids (from "Flash Sheet"):** pieces sit in ruled cells with hairline borders, like a printed flash sheet.
-- **Home and artists index (from "Studio Roster"):** artist names set very large as a typographic list; the work appears next to the name.
+- **Artists section (from "Studio Roster"):** artist names set very large as a typographic list; the work appears next to the name.
 
 ## Colour
 
@@ -63,7 +63,7 @@ Sancreek is the closest open-licence match to the lettering on the artist cards 
 
 - Never set Sancreek below `h3` size or in running text.
 - Never set Sancreek in all caps. Its lowercase does the work.
-- At most one Sancreek heading per screen, plus the artist name on artist pages.
+- At most one Sancreek heading per screen, plus the artist names in the Artists section.
 
 ### Scale
 
@@ -131,7 +131,7 @@ Small and reused. Everything is off when motion is reduced (system setting or th
 |---|---|---|
 | **Hero: the fan.** The three daggers of the stamp drop in one at a time (left, right, centre), then the circle opens from a small disc onto a healed piece. About 1.2s, pure CSS. | The studio is the mark, and the work is what's inside it. | Home only |
 | **Page transition: the blade.** A panel with a dagger-point bottom edge comes down over the old page, the page swaps behind it, and it carries on down off the new one. About 850ms in total. | Moving between rooms of one studio, in the direction the daggers point. | Every route change |
-| **Reveal: cut.** Images open top to bottom with `clip-path`. | Ink going in along a line. Draws the eye to the piece, not the page. | Portfolio and flash grids, artist index |
+| **Reveal: cut.** Images open top to bottom with `clip-path`. | Ink going in along a line. Draws the eye to the piece, not the page. | Portfolio and flash grids, Artists section |
 | **Reveal: set.** The `h1` rises line by line inside a mask (SplitText). | The names are set like type on a card. | `h1`, only on pages that arrive behind the blade |
 | **Reveal: draw.** `DaggerRule` hairlines extend outward from the dagger. | Marks the start of a new section. | Dividers |
 | **Lightbox.** The image grows out of its grid cell (hand-written FLIP); next and previous cross-fade. Closing returns focus to the cell of the piece last viewed. | You're looking closer at the same piece, not opening a new one. | Portfolio |
@@ -176,7 +176,7 @@ The CSP has `style-src 'self'` with no `unsafe-inline`:
 Do:
 - Let photos carry the colour.
 - Use the studio's own words where they exist ("Tattoos for the unique and curious", "Available custom flash").
-- Name the artist in every call to action ("Send Theshen a booking enquiry").
+- Name the artist in every call to action ("Book with Theshen").
 - Show `TODO:` blocks for anything the client has not supplied.
 
 Don't:

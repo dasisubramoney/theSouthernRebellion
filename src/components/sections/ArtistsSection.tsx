@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
-import { Seo } from '../components/seo/Seo';
-import { Dagger } from '../components/brand/Dagger';
-import { Picture, PhotoTodo, hasImage } from '../components/media/Picture';
-import { publishedArtists } from '../content/artists';
-import type { Artist } from '../content/types';
-import { portfolioFor } from '../lib/preview';
+import { Dagger } from '../brand/Dagger';
+import { Picture, PhotoTodo, hasImage } from '../media/Picture';
+import { contactPath } from '../layout/nav';
+import { publishedArtists } from '../../content/artists';
+import type { Artist } from '../../content/types';
+import { portfolioFor } from '../../lib/preview';
 
 /** Styles grouped across artists, so a first-timer can start from the look they want. */
 function styleIndex() {
@@ -20,23 +20,18 @@ function styleIndex() {
   return [...map.entries()].sort(([a], [b]) => a.localeCompare(b));
 }
 
-export default function Artists() {
-  const names = publishedArtists.map((a) => a.name);
+export function ArtistsSection() {
   return (
-    <>
-      <Seo
-        title="Resident artists"
-        description={`Meet the resident tattoo artists at The Southern Rebellion, Johannesburg: ${names.join(', ')}. See each artist's work and how they take bookings.`}
-        path="/artists"
-      />
-
-      <section className="shell pt-10 md:pt-16">
-        <h1 className="max-w-[16ch] font-display text-h1">Pick the artist whose work you want</h1>
+    <section id="artists" aria-labelledby="artists-heading" className="scroll-mt-24">
+      <div className="shell">
+        <h2 id="artists-heading" className="max-w-[16ch] font-display text-h1">
+          Pick the artist whose work you want
+        </h2>
         <p className="measure mt-6 text-lead text-smoke">
-          Each artist runs their own book, so choose by the work. Not sure where to start? The list of styles at the
-          bottom of this page shows who tattoos what.
+          Each artist runs their own book, so choose by the work. Not sure where to start? The list of styles below
+          shows who tattoos what.
         </p>
-      </section>
+      </div>
 
       <ol className="mt-(--section)">
         {publishedArtists.map((a, i) => (
@@ -44,16 +39,16 @@ export default function Artists() {
         ))}
       </ol>
 
-      <section aria-labelledby="styles-heading" className="shell mt-(--section)">
+      <div aria-labelledby="styles-heading" role="group" className="shell mt-(--section)">
         <div className="grid-page gap-y-8">
           <div className="col-span-4 md:col-span-8 lg:col-span-4">
-            <h2 id="styles-heading" className="font-display text-h2">
+            <h3 id="styles-heading" className="font-display text-h2">
               Start from the style
-            </h2>
+            </h3>
             <p className="measure mt-4 text-smoke">
               Not sure who to choose? Find the look you want, then the artists who tattoo it. Still unsure? Choose “Not
               sure, help me choose” on the{' '}
-              <Link className="link text-bone" to="/book#enquiry">
+              <Link className="link text-bone" to={contactPath}>
                 booking form
               </Link>
               .
@@ -65,7 +60,7 @@ export default function Artists() {
                 <dt>{style}</dt>
                 <dd className="flex flex-wrap gap-x-4">
                   {list.map((a) => (
-                    <Link key={a.slug} className="link text-smoke" to={`/artists/${a.slug}`}>
+                    <Link key={a.slug} className="link text-smoke" to={`/#artist-${a.slug}`}>
                       {a.name}
                     </Link>
                   ))}
@@ -74,8 +69,8 @@ export default function Artists() {
             ))}
           </dl>
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 }
 
@@ -86,14 +81,10 @@ function ArtistBand({ artist, index }: { artist: Artist; index: number }) {
     .slice(0, 3);
   const flip = index % 2 === 1;
   return (
-    <li className="border-t border-coal py-12 md:py-16">
+    <li id={`artist-${artist.slug}`} className="scroll-mt-24 border-t border-coal py-12 md:py-16">
       <div className="shell grid-page items-end gap-y-8">
         <div className={`col-span-4 md:col-span-3 lg:col-span-4 ${flip ? 'md:order-2 md:col-start-6 lg:col-start-9' : ''}`}>
-          <h2 className="font-display text-[clamp(3rem,1rem+7vw,6.5rem)] leading-[0.9]">
-            <Link to={`/artists/${artist.slug}`} className="hover:underline hover:decoration-1 hover:underline-offset-8">
-              {artist.name}
-            </Link>
-          </h2>
+          <h3 className="font-display text-[clamp(3rem,1rem+7vw,6.5rem)] leading-[0.9]">{artist.name}</h3>
           <p className="mt-3 text-small text-smoke">
             @{artist.instagram}
             {artist.pronouns ? <span className="text-ash"> · {artist.pronouns}</span> : null}
@@ -106,12 +97,9 @@ function ArtistBand({ artist, index }: { artist: Artist; index: number }) {
               </li>
             ))}
           </ul>
-          <p className="mt-6 flex flex-wrap gap-x-6 gap-y-2">
-            <Link className="link font-semibold" to={`/artists/${artist.slug}`}>
-              See {artist.name}’s work
-            </Link>
-            <Link className="link text-smoke" to={`/book?artist=${artist.slug}#enquiry`}>
-              Book {artist.name}
+          <p className="mt-6">
+            <Link className="link font-semibold" to={`${contactPath}?artist=${artist.slug}`}>
+              Book with {artist.name}
             </Link>
           </p>
         </div>

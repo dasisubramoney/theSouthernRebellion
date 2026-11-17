@@ -1,34 +1,30 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Seo } from '../components/seo/Seo';
-import { Dagger } from '../components/brand/Dagger';
-import { Picture } from '../components/media/Picture';
-import { TodoNote, TodoOr } from '../components/content/TodoNote';
-import { publishedArtists } from '../content/artists';
-import { flash, flashNotes, visibleFlash } from '../content/flash';
-import { isTodo } from '../content/todo';
-import type { ArtistSlug, FlashEntry } from '../content/types';
-import { contentPreview } from '../lib/preview';
+import { Dagger } from '../brand/Dagger';
+import { Picture } from '../media/Picture';
+import { TodoNote, TodoOr } from '../content/TodoNote';
+import { contactPath } from '../layout/nav';
+import { publishedArtists } from '../../content/artists';
+import { flash, flashNotes, visibleFlash } from '../../content/flash';
+import { isTodo } from '../../content/todo';
+import type { ArtistSlug, FlashEntry } from '../../content/types';
+import { contentPreview } from '../../lib/preview';
 
 const listFor = (slug: ArtistSlug) => (contentPreview ? flash[slug] : visibleFlash(slug));
 
-export default function Flash() {
+export function FlashSection() {
   const [only, setOnly] = useState<ArtistSlug | 'all'>('all');
   const withFlash = publishedArtists.filter((a) => listFor(a.slug).length > 0);
   const shown = only === 'all' ? withFlash : withFlash.filter((a) => a.slug === only);
 
   return (
-    <>
-      <Seo
-        title="Flash"
-        description="Flash designs from the resident artists at The Southern Rebellion, Johannesburg. Available pieces can be claimed through the booking form."
-        path="/flash"
-      />
-
-      <section className="shell pt-10 md:pt-16">
+    <section id="flash" aria-labelledby="flash-heading" className="mt-(--section) scroll-mt-24">
+      <div className="shell">
         <div className="grid-page items-end gap-y-8">
           <div className="col-span-4 md:col-span-5 lg:col-span-7">
-            <h1 className="font-display text-h1">Available flash</h1>
+            <h2 id="flash-heading" className="font-display text-h1">
+              Available flash
+            </h2>
             <p className="measure mt-6 text-lead text-smoke">
               Flash is a design the artist has already drawn. Pick one you like and claim it. Marked pieces are taken.
             </p>
@@ -49,7 +45,7 @@ export default function Flash() {
           </dl>
         </div>
         <TodoOr className="measure mt-8" value={flashNotes.howToClaim} />
-      </section>
+      </div>
 
       {withFlash.length > 1 ? (
         <nav aria-label="Filter flash by artist" className="shell mt-12">
@@ -73,21 +69,18 @@ export default function Flash() {
       <div className="mt-12 space-y-(--section)">
         {shown.length ? (
           shown.map((a) => (
-            <section key={a.slug} aria-labelledby={`flash-${a.slug}`} className="shell">
+            <div key={a.slug} role="group" aria-labelledby={`flash-${a.slug}`} className="shell">
               <div className="flex flex-wrap items-baseline justify-between gap-4 border-b border-coal pb-4">
-                <h2 id={`flash-${a.slug}`} className="font-display text-h2">
+                <h3 id={`flash-${a.slug}`} className="font-display text-h2">
                   {a.name}
-                </h2>
-                <Link className="link text-small" to={`/artists/${a.slug}`}>
-                  More of {a.name}’s work
-                </Link>
+                </h3>
               </div>
               <ul className="mt-8 grid grid-cols-2 gap-px border border-coal bg-coal md:grid-cols-3 lg:grid-cols-4">
                 {listFor(a.slug).map((f) => (
                   <FlashCell key={f.id} entry={f} artist={a.slug} />
                 ))}
               </ul>
-            </section>
+            </div>
           ))
         ) : (
           <div className="shell space-y-3">
@@ -102,7 +95,7 @@ export default function Flash() {
           </div>
         ) : null}
       </div>
-    </>
+    </section>
   );
 }
 
@@ -114,7 +107,7 @@ function FlashCell({ entry, artist }: { entry: FlashEntry; artist: ArtistSlug })
         <Picture imageKey={entry.imageKey} alt={entry.alt} sizes="(min-width: 64rem) 25vw, (min-width: 48rem) 33vw, 50vw" className="h-auto w-full" />
       </div>
       <div className="flex flex-1 flex-col gap-2 p-3 md:p-4">
-        <h3 className={`font-semibold ${claimed ? 'text-ash line-through' : ''}`}>{entry.title}</h3>
+        <h4 className={`font-semibold ${claimed ? 'text-ash line-through' : ''}`}>{entry.title}</h4>
         {!isTodo(entry.size) ? <p className="text-small text-ash">{entry.size}</p> : null}
         {!isTodo(entry.price) ? <p className="num text-small">{entry.price}</p> : null}
         {entry.status === null ? <p className="ui text-alert-on-ink">Not confirmed as flash</p> : null}
@@ -122,7 +115,7 @@ function FlashCell({ entry, artist }: { entry: FlashEntry; artist: ArtistSlug })
           {claimed ? (
             <span className="ui text-ash">Claimed</span>
           ) : (
-            <Link className="link text-small font-semibold" to={`/book?artist=${artist}&flash=${entry.id}#enquiry`}>
+            <Link className="link text-small font-semibold" to={`${contactPath}?artist=${artist}&flash=${entry.id}`}>
               Claim this piece
             </Link>
           )}

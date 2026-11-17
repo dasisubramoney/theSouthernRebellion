@@ -5,22 +5,19 @@ import { useMotion } from '../../lib/motion';
 import { loadEngine } from '../../lib/useEngine';
 import { setupReveals } from '../../lib/reveals';
 import { effects } from '../../motion/effects';
-import {
-  Aftercare,
-  Artist,
-  Artists,
-  Book,
-  Flash,
-  Home,
-  NotFound,
-  Piercing,
-  Privacy,
-  Sent,
-  Visit,
-  preloadRoute,
-} from '../../routes';
+import { Contact, Home, NotFound, Privacy, Sent, preloadRoute } from '../../routes';
 
 const samePage = (a: Location, b: Location) => a.pathname === b.pathname && a.search === b.search;
+
+/** The element a URL hash points at. A malformed hash (such as "#%E0%A4%A") must not crash the page. */
+function hashTarget(hash: string) {
+  if (!hash) return null;
+  try {
+    return document.getElementById(decodeURIComponent(hash.slice(1)));
+  } catch {
+    return null;
+  }
+}
 
 /**
  * Routes with the blade transition. The current page stays on screen while the
@@ -36,12 +33,14 @@ export function PageRoutes() {
   /** True while the page on screen arrived behind the blade (so in-view content may animate). */
   const arrived = useRef(false);
   const firstRender = useRef(true);
+  const lastPath = useRef(shown.pathname);
   const reducedRef = useRef(reduced);
   reducedRef.current = reduced;
 
   useEffect(() => {
     if (samePage(location, shown)) {
-      if (location.hash !== shown.hash) setShown(location);
+      // A link to a section of the page you are already on, or the same link again: scroll, do not transition.
+      if (location.hash !== shown.hash || location.key !== shown.key) setShown(location);
       return;
     }
     let cancelled = false;
@@ -77,19 +76,30 @@ export function PageRoutes() {
 
   // After the new page commits: scroll, move focus, lift the blade, start its reveals.
   useEffect(() => {
+    const main = document.getElementById('main');
+    const target = hashTarget(shown.hash);
     if (firstRender.current) {
       firstRender.current = false;
+      // A direct load of /#visit: the browser has already jumped to the section in the prerendered
+      // HTML, but fonts and images can shift the layout afterwards. Land on it again once settled
+      // (scroll-margin-top on the section clears the sticky header).
+      if (target) requestAnimationFrame(() => target.scrollIntoView({ behavior: 'instant' }));
       return;
     }
-    const main = document.getElementById('main');
-    const target = shown.hash ? document.getElementById(decodeURIComponent(shown.hash.slice(1))) : null;
     const wasCovered = covered.current;
     covered.current = false;
     arrived.current = wasCovered;
+    // A change of page always jumps (the old page's scroll offset means nothing on the new one), even
+    // if the blade did not cover it. Only links inside the page glide.
+    const pathChanged = lastPath.current !== shown.pathname;
+    lastPath.current = shown.pathname;
+    const instant = wasCovered || pathChanged;
 
+    // Behind the blade the jump is invisible and should be instant. For a link inside the page, native
+    // scrolling follows the CSS scroll-behavior (smooth when motion is on, plain when it is reduced).
     const nativeScroll = () => {
-      if (target) target.scrollIntoView();
-      else window.scrollTo(0, 0);
+      if (target) target.scrollIntoView(instant ? { behavior: 'instant' } : undefined);
+      else window.scrollTo({ top: 0, behavior: 'instant' });
     };
     if (reducedRef.current && !wasCovered) {
       // No motion code is loaded in reduced mode: native scrolling only.
@@ -97,7 +107,7 @@ export function PageRoutes() {
     } else {
       loadEngine().then(
         (e) => {
-          e.scrollTo(target ?? 0);
+          e.scrollTo(target ?? 0, instant);
           const el = panel.current;
           if (!wasCovered || !el) return;
           // Wait two frames so the new page's setup (reveals, heading split) runs while
@@ -141,14 +151,8 @@ export function PageRoutes() {
       <Suspense fallback={null}>
         <Routes location={shown}>
           <Route path="/" element={<Home />} />
-          <Route path="/artists" element={<Artists />} />
-          <Route path="/artists/:slug" element={<Artist />} />
-          <Route path="/flash" element={<Flash />} />
-          <Route path="/piercing" element={<Piercing />} />
-          <Route path="/book" element={<Book />} />
+          <Route path="/contact" element={<Contact />} />
           <Route path="/sent" element={<Sent />} />
-          <Route path="/aftercare" element={<Aftercare />} />
-          <Route path="/visit" element={<Visit />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

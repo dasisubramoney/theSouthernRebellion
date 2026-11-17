@@ -12,10 +12,10 @@ export default function Sent() {
         <h1 className="mt-8 max-w-[14ch] font-display text-h1">Sent to the studio</h1>
         <p className="measure mt-6 text-lead">The studio has your message and will pass it to the right artist.</p>
         <p className="mt-8 flex flex-wrap gap-6">
-          <Link className="link" to="/artists">
+          <Link className="link" to="/#artists">
             Back to the artists
           </Link>
-          <Link className="link" to="/aftercare">
+          <Link className="link" to="/#aftercare">
             Aftercare notes
           </Link>
         </p>

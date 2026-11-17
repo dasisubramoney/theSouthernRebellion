@@ -114,7 +114,7 @@ export default function Privacy() {
               </Block>
 
               <p className="border-t border-ink/20 pt-8">
-                <Link className="link font-semibold" to="/book#enquiry">
+                <Link className="link font-semibold" to="/contact#enquiry">
                   Back to the booking form
                 </Link>
               </p>

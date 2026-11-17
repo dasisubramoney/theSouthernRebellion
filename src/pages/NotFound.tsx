@@ -18,8 +18,8 @@ export default function NotFound() {
           The link may be old, or the page may have moved. The artists and the booking form are still here.
         </p>
         <p className="mt-8 flex flex-wrap gap-6">
-          <Link className="link" to="/artists">See the artists</Link>
-          <Link className="link" to="/book">How to book</Link>
+          <Link className="link" to="/#artists">See the artists</Link>
+          <Link className="link" to="/#how-to-book">How to book</Link>
         </p>
       </section>
     </>

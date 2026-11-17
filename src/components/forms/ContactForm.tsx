@@ -71,7 +71,7 @@ export function ContactForm() {
       <Field id="contact-whatsapp" label="WhatsApp number" optional>
         {(d) => <input id="contact-whatsapp" name="whatsapp" type="tel" autoComplete="tel" aria-describedby={d} className={`${controlClass} num`} />}
       </Field>
-      <Field id="contact-message" label="Your question" hint={<>Booking a tattoo? Use the <Link className="link" to="/book#enquiry">booking enquiry</Link> instead, so it goes to the right artist.</>} error={errors.message}>
+      <Field id="contact-message" label="Your question" hint={<>Booking a tattoo? Use the <Link className="link" to="/contact#enquiry">booking enquiry</Link> instead, so it goes to the right artist.</>} error={errors.message}>
         {(d) => <textarea id="contact-message" name="message" rows={4} required aria-describedby={d} aria-invalid={errors.message ? true : undefined} className={controlClass} />}
       </Field>
       <Check id="contact-consent" name="consent" checked={consent} onChange={setConsent} error={errors.consent}>

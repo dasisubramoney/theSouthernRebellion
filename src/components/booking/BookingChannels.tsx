@@ -11,7 +11,7 @@ export function BookingChannels({ artist }: { artist: Artist }) {
   return (
     <div>
       <Link
-        to={`/book?artist=${artist.slug}#enquiry`}
+        to={`/contact?artist=${artist.slug}`}
         className="ui inline-flex items-center gap-3 bg-bone px-5 py-4 text-ink transition-colors duration-200 hover:bg-smoke"
       >
         Send {artist.name} a booking enquiry

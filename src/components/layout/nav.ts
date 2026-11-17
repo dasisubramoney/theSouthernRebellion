@@ -1,8 +1,17 @@
+/**
+ * The six sections of the home page. `id` is the section's element id on "/", and `to` is
+ * where the link goes from either page: on "/" it scrolls, from /contact it navigates.
+ */
 export const primaryNav = [
-  { to: '/artists', label: 'Artists' },
-  { to: '/flash', label: 'Flash' },
-  { to: '/piercing', label: 'Piercing' },
-  { to: '/book', label: 'How to book' },
-  { to: '/aftercare', label: 'Aftercare' },
-  { to: '/visit', label: 'Visit' },
+  { id: 'artists', to: '/#artists', label: 'Artists' },
+  { id: 'flash', to: '/#flash', label: 'Flash' },
+  { id: 'piercing', to: '/#piercing', label: 'Piercing' },
+  { id: 'how-to-book', to: '/#how-to-book', label: 'How to book' },
+  { id: 'aftercare', to: '/#aftercare', label: 'Aftercare' },
+  { id: 'visit', to: '/#visit', label: 'Visit' },
 ] as const;
+
+export type SectionId = (typeof primaryNav)[number]['id'];
+
+/** The page for booking enquiries and questions. */
+export const contactPath = '/contact';

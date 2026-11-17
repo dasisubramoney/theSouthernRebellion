@@ -5,19 +5,19 @@ import { EmailLink } from '../layout/EmailLink';
 import { TodoNote } from '../content/TodoNote';
 
 /**
- * The Saturday piercing special, from the studio's flyer. Renders nothing when
+ * The Saturday piercing special, from the studio's flyer (a group inside the piercing section). Renders nothing when
  * `piercing.special.enabled` is false.
  */
 export function SaturdaySpecial({ id = 'special' }: { id?: string }) {
   const s = piercing.special;
   if (!s.enabled) return null;
   return (
-    <section id={id} aria-labelledby={`${id}-heading`} className="shell scroll-mt-24 py-(--section)">
+    <div id={id} role="group" aria-labelledby={`${id}-heading`} className="shell scroll-mt-24 py-(--section)">
       <div className="grid-page gap-y-8">
         <div className="col-span-4 md:col-span-4 lg:col-span-5">
-          <h2 id={`${id}-heading`} className="font-display text-h2">
+          <h3 id={`${id}-heading`} className="font-display text-h2">
             Saturday piercing special
-          </h2>
+          </h3>
           <dl className="mt-8 grid grid-cols-[6rem_1fr] gap-y-3 border-t border-coal pt-6">
             <dt className="ui pt-1 text-ash">When</dt>
             <dd className="num">Every {s.day}, 10am to 5pm</dd>
@@ -28,7 +28,7 @@ export function SaturdaySpecial({ id = 'special' }: { id?: string }) {
           </dl>
           <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4">
             <Link
-              to="/book?artist=piercing#enquiry"
+              to="/contact?artist=piercing"
               className="ui inline-flex items-center gap-3 border border-bone px-5 py-4 transition-colors duration-200 hover:bg-bone hover:text-ink"
             >
               Book a Saturday piercing
@@ -52,6 +52,6 @@ export function SaturdaySpecial({ id = 'special' }: { id?: string }) {
           Price: R{s.priceZar} for {s.offer.toLowerCase()}.
         </p>
       </div>
-    </section>
+    </div>
   );
 }

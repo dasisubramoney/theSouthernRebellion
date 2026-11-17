@@ -128,15 +128,15 @@ export function BookingForm() {
     const reply = booking.steps[1]?.body;
     return (
       <div role="status" className="border border-bone p-6 md:p-10">
-        <h3 ref={doneRef} tabIndex={-1} className="font-display text-h2 outline-none">
+        <h2 ref={doneRef} tabIndex={-1} className="font-display text-h2 outline-none">
           Sent to {artistLabel(artist)}
-        </h3>
+        </h2>
         <p className="measure mt-4 text-lead">
           Your enquiry and images are with {artistLabel(artist)}.
         </p>
         {reply && isTodo(reply) ? <TodoNote className="mt-6" item={reply} /> : null}
         <p className="mt-8">
-          <Link className="link" to="/aftercare">
+          <Link className="link" to="/#aftercare">
             Read the aftercare notes before your session
           </Link>
         </p>

@@ -92,7 +92,8 @@
 
   h1,
   h2,
-  h3 {
+  h3,
+  h4 {
     text-wrap: balance;
   }
 
@@ -240,6 +241,15 @@ html[data-motion='reduced'] *::after {
 
 html.menu-open {
   overflow: hidden;
+}
+
+/*
+  Links to a section glide with native scrolling while motion is on. Where Lenis is running
+  (fine pointers, after the first interaction) it takes over: .lenis.lenis-smooth below turns
+  this off so the two never fight. The sections carry scroll-margin-top for the sticky header.
+*/
+html[data-motion='full'] {
+  scroll-behavior: smooth;
 }
 
 

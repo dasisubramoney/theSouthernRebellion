@@ -1,17 +1,21 @@
 import { useEffect, useId, useRef, useState } from 'react';
-import { Link, NavLink, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { StudioMark } from '../brand/StudioMark';
 import { Dagger } from '../brand/Dagger';
-import { primaryNav } from './nav';
+import { useActiveSection } from '../../lib/activeSection';
+import { contactPath, primaryNav } from './nav';
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const panelId = useId();
   const buttonRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
-  const { pathname } = useLocation();
+  const { pathname, hash } = useLocation();
+  const activeSection = useActiveSection();
+  const onContact = pathname === contactPath;
 
-  useEffect(() => setOpen(false), [pathname]);
+  // Close on any navigation, including a tap on a link to a section of the page you are already on.
+  useEffect(() => setOpen(false), [pathname, hash]);
 
   useEffect(() => {
     if (!open) return;
@@ -45,7 +49,7 @@ export function SiteHeader() {
   }, [open]);
 
   return (
-    <header className="relative z-40 border-b border-coal">
+    <header className="sticky top-0 z-40 border-b border-coal bg-ink">
       <div className="shell flex h-16 items-center justify-between gap-6 md:h-20">
         <Link to="/" className="flex items-center gap-3" aria-label="The Southern Rebellion, home">
           <StudioMark className="size-10 text-bone md:size-12" disc={false} />
@@ -58,31 +62,36 @@ export function SiteHeader() {
 
         <nav aria-label="Main" className="hidden lg:block">
           <ul className="flex items-center gap-7">
-            {primaryNav.map((item) => (
-              <li key={item.to}>
-                <NavLink to={item.to} className="group ui relative flex items-center gap-1.5 py-2">
-                  {({ isActive }) => (
-                    <>
-                      <Dagger
-                        className={`h-3.5 w-auto transition-opacity duration-200 ${
-                          isActive ? 'opacity-100' : 'opacity-0 group-hover:opacity-60'
-                        }`}
-                      />
-                      <span>{item.label}</span>
-                    </>
-                  )}
-                </NavLink>
-              </li>
-            ))}
+            {primaryNav.map((item) => {
+              const isActive = activeSection === item.id;
+              return (
+                <li key={item.id}>
+                  <Link
+                    to={item.to}
+                    aria-current={isActive ? 'location' : undefined}
+                    className="group ui relative flex items-center gap-1.5 py-2"
+                  >
+                    <Dagger
+                      className={`h-3.5 w-auto transition-opacity duration-200 ${
+                        isActive ? 'opacity-100' : 'opacity-0 group-hover:opacity-60'
+                      }`}
+                    />
+                    <span>{item.label}</span>
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         </nav>
 
         <div className="flex items-center gap-3">
           <Link
-            to="/book#enquiry"
-            className="ui hidden border border-bone px-4 py-3 transition-colors duration-200 hover:bg-bone hover:text-ink md:inline-block"
+            to={contactPath}
+            aria-current={onContact ? 'page' : undefined}
+            className="ui inline-block border border-bone px-4 py-3 transition-colors duration-200 hover:bg-bone hover:text-ink"
           >
-            Send a booking enquiry
+            <span className="md:hidden">Book</span>
+            <span className="hidden md:inline">Send a booking enquiry</span>
           </Link>
           <button
             ref={buttonRef}
@@ -100,20 +109,28 @@ export function SiteHeader() {
       <div id={panelId} ref={panelRef} hidden={!open} className="fixed inset-0 z-40 overflow-y-auto bg-ink pt-20 lg:hidden">
         <nav aria-label="Main, mobile" className="shell pb-12">
           <ul className="border-t border-coal">
-            {primaryNav.map((item) => (
-              <li key={item.to} className="border-b border-coal">
-                <NavLink to={item.to} className="flex items-center justify-between py-4 font-display text-h3">
-                  {({ isActive }) => (
-                    <>
-                      <span>{item.label}</span>
-                      {isActive ? <Dagger point="left" className="h-4 w-auto" /> : null}
-                    </>
-                  )}
-                </NavLink>
-              </li>
-            ))}
+            {primaryNav.map((item) => {
+              const isActive = activeSection === item.id;
+              return (
+                <li key={item.id} className="border-b border-coal">
+                  <Link
+                    to={item.to}
+                    aria-current={isActive ? 'location' : undefined}
+                    onClick={() => setOpen(false)}
+                    className="flex items-center justify-between py-4 font-display text-h3"
+                  >
+                    <span>{item.label}</span>
+                    {isActive ? <Dagger point="left" className="h-4 w-auto" /> : null}
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
-          <Link to="/book#enquiry" className="ui mt-8 block border border-bone px-4 py-4 text-center">
+          <Link
+            to={contactPath}
+            onClick={() => setOpen(false)}
+            className="ui mt-8 block border border-bone px-4 py-4 text-center"
+          >
             Send a booking enquiry
           </Link>
         </nav>

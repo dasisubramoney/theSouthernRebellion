@@ -36,10 +36,20 @@ export function smoothScroll() {
   };
 }
 
-export function scrollTo(target: number | HTMLElement) {
-  if (lenis) lenis.scrollTo(target, { immediate: true, force: true });
-  else if (typeof target === 'number') window.scrollTo(0, target);
-  else target.scrollIntoView();
+/**
+ * Lenis honours the target's scroll-margin-top, so sections clear the sticky header. `immediate`
+ * is for jumps behind the blade; links inside the page glide. Without Lenis (touch, or before the
+ * first pointer interaction) this falls back to native scrolling, which follows CSS scroll-behavior.
+ */
+export function scrollTo(target: number | HTMLElement, immediate = true) {
+  if (lenis) {
+    // Lenis clamps to the page height it measured last. After a page swap (the short contact page
+    // to the long home page) that height is stale, so measure again before scrolling.
+    lenis.resize();
+    lenis.scrollTo(target, immediate ? { immediate: true, force: true } : { duration: 0.9, force: true });
+  }
+  else if (typeof target === 'number') window.scrollTo({ top: target, behavior: immediate ? 'instant' : 'auto' });
+  else target.scrollIntoView(immediate ? { behavior: 'instant' } : undefined);
 }
 
 /* ----------------------------------------------------------------- blade */

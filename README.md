@@ -12,6 +12,43 @@ Design rules (colours, type, the dagger motif, the motion vocabulary) are in [DE
 
 ---
 
+## Summary of changes: two-page restructure
+
+Branch `restructure-two-page` turns the site from one page per topic into two pages. Details of how the pieces work are under "Site structure" below.
+
+**What changed**
+- **Pages:** `/` (the hero, then six sections: Artists, Flash, Piercing, How to book, Aftercare, Visit) and `/contact` (the booking enquiry form, then "Just have a question?"). `/privacy` and `/sent` are unchanged.
+- **Content moved, not rewritten:** each old page's copy now lives in a section component under `src/components/sections/`. Headings were demoted so each section has one `h2` and each page one `h1`; the visual classes are unchanged.
+- **Header:** sticky, with a Book button on every screen size, nav links that scroll to the section (or navigate to `/#section` from `/contact`), a highlight that follows the scroll, and a mobile menu that closes on every link tap.
+- **Calls to action:** a "Send a booking enquiry" button ends both How to book and Visit. Each artist band has "Book with <artist>", which opens `/contact?artist=<slug>`.
+- **Forms:** both forms moved to `/contact` with fields, validation, honeypot, per-artist routing, `?artist=` and `&flash=` prefill and the `/sent` fallback unchanged. The only markup change is the success message heading, now an `h2` so heading order stays valid under the page's `h1`.
+- **SEO:** a new title, description and canonical for `/contact`; the sitemap lists `/`, `/contact` and `/privacy`; the `TattooParlor` JSON-LD is on `/` only.
+- **Redirects** (`netlify.toml`): `/book`, `/book/*`, `/booking`, `/bookings` go to `/contact`; `/artists`, `/flash`, `/piercing`, `/aftercare` and `/visit` go to their section of `/`; `/artists/<slug>` goes to `/#artist-<slug>`. The old `/contact` to `/visit` rule is gone.
+- **Scrolling:** React Router does not scroll to a hash by itself, so `PageRoutes.tsx` does it, including direct loads of `/#section`. Lenis re-measures the page before scrolling (it otherwise clamps to a stale height after a page swap). Sections carry `scroll-mt-24` for the sticky header.
+
+**What was removed**
+- The page components for `/artists`, `/artists/<slug>`, `/flash`, `/piercing`, `/book`, `/aftercare` and `/visit`, and Home's duplicate blocks (artist roster, "N steps" band, Visit teaser).
+- The `Person` JSON-LD, which pointed at the removed artist pages.
+- Nothing in `src/content/`: all artist, portrait and portfolio data is intact. To bring the artist pages back, see "Restoring the artist pages" below.
+
+**Checked locally**
+- `npm run build` and the typecheck pass; the prerendered HTML has one `h1` per page, six sections in order, no duplicate ids and each form name registered once.
+- A Chrome run at 375, 768 and 1280 widths (nav, highlight, mobile menu, CTAs, `/contact` to `/#section`, direct loads, reduced motion, form request payloads) passed with no console errors.
+- Lighthouse on mobile scored 99 / 100 / 100 / 100 (performance, accessibility, best practices, SEO) for `/` and `/contact`.
+
+**Still to check on a deploy preview**
+- A real submission of each form from `/contact`, and one with JavaScript off (it should land on `/sent`).
+- That Netlify lists all eight form names (`booking-<artist slug>` x5, `booking-unsure`, `booking-piercing`, `contact`).
+- That the redirects keep their `#fragment` (`curl -sI <preview>/visit`) and the query string (`/book?artist=x`). If a fragment is dropped, point that rule at `/`.
+
+**Commits**
+1. Move the old pages into six home-page sections and add a /contact page
+2. Add a sticky header with a Book button, section highlighting and scroll handling
+3. Update redirects, form registration note, JSON-LD and README for the two-page structure
+4. Update DESIGN.md to match the two-page structure
+
+---
+
 ## Repository
 
 - **GitHub:** https://github.com/dasisubramoney/theSouthernRebellion (public)

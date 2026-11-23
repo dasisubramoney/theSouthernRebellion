@@ -48,7 +48,7 @@
   status = 301
   force = true
 
-# The site is two pages: "/" (hero and six sections) and "/contact" (both forms).
+# The site is two pages: "/" (hero and five sections) and "/contact" (both forms).
 # Short links for Instagram bios, and the old booking URLs, go to the contact page.
 # (There is deliberately no rule for "/contact": it is a real page.)
 [[redirects]]
@@ -73,7 +73,7 @@
 
 # The old one-page-per-topic routes now live as sections of "/".
 # NEEDS DEPLOY PREVIEW: check that Netlify keeps the #fragment in these Location headers
-# (curl -sI https://<preview>/visit). If it does not, change each "to" below to "/".
+# (curl -sI https://<preview>/artists). If it does not, change each "to" below to "/".
 [[redirects]]
   from = "/artists"
   to = "/#artists"
@@ -84,9 +84,10 @@
   to = "/#artist-:splat"
   status = 301
 
+# Flash is now three designs inside each artist, so /flash goes to the artists.
 [[redirects]]
   from = "/flash"
-  to = "/#flash"
+  to = "/#artists"
   status = 301
 
 [[redirects]]
@@ -99,9 +100,10 @@
   to = "/#aftercare"
   status = 301
 
+# There is no Visit section any more (the address and hours are in the footer).
 [[redirects]]
   from = "/visit"
-  to = "/#visit"
+  to = "/"
   status = 301
 
 # Fallback. Every real route is prerendered to its own HTML file, so this only

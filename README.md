@@ -23,7 +23,7 @@ Branch `restructure-two-page` turns the site from one page per topic into two pa
 - **Calls to action:** a "Send a booking enquiry" button ends both How to book and Visit. Each artist band has "Book with <artist>", which opens `/contact?artist=<slug>`.
 - **Forms:** both forms moved to `/contact` with fields, validation, honeypot, per-artist routing, `?artist=` and `&flash=` prefill and the `/sent` fallback unchanged. The only markup change is the success message heading, now an `h2` so heading order stays valid under the page's `h1`.
 - **SEO:** a new title, description and canonical for `/contact`; the sitemap lists `/`, `/contact` and `/privacy`; the `TattooParlor` JSON-LD is on `/` only.
-- **Redirects** (`netlify.toml`): `/book`, `/book/*`, `/booking`, `/bookings` go to `/contact`; `/artists`, `/flash`, `/piercing`, `/aftercare` and `/visit` go to their section of `/`; `/artists/<slug>` goes to `/#artist-<slug>`. The old `/contact` to `/visit` rule is gone.
+- **Redirects** (`netlify.toml`): `/book`, `/book/*`, `/booking`, `/bookings` go to `/contact`; `/artists`, `/piercing` and `/aftercare` go to their section of `/`; `/artists/<slug>` goes to `/#artist-<slug>`; `/flash` goes to `/#artists` and `/visit` to `/` (those two sections were later folded in or removed, see "Later change" below). The old `/contact` to `/visit` rule is gone.
 - **Scrolling:** React Router does not scroll to a hash by itself, so `PageRoutes.tsx` does it, including direct loads of `/#section`. Lenis re-measures the page before scrolling (it otherwise clamps to a stale height after a page swap). Sections carry `scroll-mt-24` for the sticky header.
 
 **What was removed**
@@ -39,13 +39,23 @@ Branch `restructure-two-page` turns the site from one page per topic into two pa
 **Still to check on a deploy preview**
 - A real submission of each form from `/contact`, and one with JavaScript off (it should land on `/sent`).
 - That Netlify lists all eight form names (`booking-<artist slug>` x5, `booking-unsure`, `booking-piercing`, `contact`).
-- That the redirects keep their `#fragment` (`curl -sI <preview>/visit`) and the query string (`/book?artist=x`). If a fragment is dropped, point that rule at `/`.
+- That the redirects keep their `#fragment` (`curl -sI <preview>/artists`) and the query string (`/book?artist=x`). If a fragment is dropped, point that rule at `/`.
 
 **Commits**
 1. Move the old pages into six home-page sections and add a /contact page
 2. Add a sticky header with a Book button, section highlighting and scroll handling
 3. Update redirects, form registration note, JSON-LD and README for the two-page structure
 4. Update DESIGN.md to match the two-page structure
+
+### Later change: five-section rebuild
+
+The home page was rebuilt as the hero plus five sections: **Artists, Piercing, How to book (the booking process), Aftercare, Gallery**. It is still one scrolling page; `/contact` is still the page with the forms.
+
+- **Artists** now holds everything about each artist in one block: name, linked Instagram handle, styles, bio (a TODO note until supplied), the lines from their Instagram bio, their three best pieces, and three flash designs with a "Claim this piece" link, plus "Book with <artist>". Flash is no longer a section of its own.
+- **Gallery** is new: work from every artist in one ruled grid with an artist filter, the existing lightbox, and "Show more" after the first 12. Only pieces with `consentConfirmed: true` show (see "Adding portfolio images"); until then it shows a TODO note.
+- **Removed:** the Flash section (its content moved into the artists), the Visit section (the address and hours are in the footer; the map placeholder and parking note are no longer shown, though they are still in `src/content/studio.ts`), and the "Start from the style" list.
+- **Fixed on the way:** the portfolio grid left a solid grey block in an incomplete last row; it now uses per-cell hairlines.
+- **Needs the client:** the Instagram bio lines are shown verbatim, so some wording that was an open question is now on the page ("Co-Owner" on Bron, "Pro Artist" on Bram, "Randburg"). See `CLIENT-TODO.md`.
 
 ---
 
@@ -119,7 +129,7 @@ scripts/
 src/
   content/             All site content (see "Editing content")
   pages/               One file per route: Home, Contact, Privacy, Sent, NotFound
-  components/sections/ The six home-page sections (Artists, Flash, Piercing, How to book, Aftercare, Visit)
+  components/sections/ The five home-page sections (Artists, Piercing, How to book, Aftercare, Gallery)
   components/          brand/ (dagger, marks, frame), forms/, layout/, media/, portfolio/, ...
   motion/              engine.ts (GSAP, lazy), effects.ts (on/off switches)
   lib/                 Motion preference, reveals, Netlify form helpers, schema.org JSON-LD
@@ -138,7 +148,7 @@ Two pages, plus two utility URLs:
 
 | URL | What it is |
 |---|---|
-| `/` | The hero, then six sections in this order: `#artists`, `#flash`, `#piercing`, `#how-to-book`, `#aftercare`, `#visit` (components in `src/components/sections/`, assembled in `src/pages/Home.tsx`) |
+| `/` | The hero, then five sections in this order: `#artists`, `#piercing`, `#how-to-book`, `#aftercare`, `#gallery` (components in `src/components/sections/`, assembled in `src/pages/Home.tsx`) |
 | `/contact` | The booking enquiry form, then the question form under "Just have a question?" |
 | `/privacy`, `/sent` | The POPIA notice (linked from the footer and both forms), and the landing page for forms sent without JavaScript (`noindex`) |
 
@@ -149,7 +159,7 @@ Two pages, plus two utility URLs:
 
 ### Restoring the artist pages
 
-`/artists` and `/artists/<slug>` were removed when the site went to two pages. All the data is still in `src/content/` (artists, portraits, portfolio, flash), and these are kept but unused: `BookingChannels`, `CornerFrame`, `BramMark`, and `artistPerson` in `src/lib/schema.ts`. (`PortfolioGrid` and `Lightbox` are still used by the Piercing section.) To bring the pages back:
+`/artists` and `/artists/<slug>` were removed when the site went to two pages. All the data is still in `src/content/` (artists, portraits, portfolio, flash), and these are kept but unused: `BookingChannels`, `CornerFrame`, `BramMark`, and `artistPerson` in `src/lib/schema.ts`. (`PortfolioGrid` and `Lightbox` are still used by the Piercing and Gallery sections.) To bring the pages back:
 
 1. Recover the old route components from the commit before the restructure: `git show 81fe22c:src/pages/Artist.tsx` and `git show 81fe22c:src/pages/Artists.tsx` (the old Flash, Piercing, Book, Aftercare and Visit pages are there too).
 2. Put them back in `src/pages/`, then add the routes in `src/routes.tsx` (lazy import, `preloadRoute`, `staticPaths`) and `PageRoutes.tsx`.
@@ -188,7 +198,7 @@ The old site had no content URLs, so there is nothing to map one-to-one. `netlif
 - www to apex
 - old WordPress paths (`/wp-admin/*`, `/wp-login.php`, `/wp-content/*`, `/feed/*`) and `/sitemap_index.xml`
 - the old booking URLs and the Instagram short links: `/book`, `/book/*`, `/booking`, `/bookings` → `/contact`
-- the old one-page-per-topic routes: `/artists`, `/artists/*`, `/flash`, `/piercing`, `/aftercare`, `/visit` → the matching section of `/` (for example `/visit` → `/#visit`, and `/artists/bram` → `/#artist-bram`). Whether Netlify keeps the `#fragment` in the redirect is unverified: check on a deploy preview, and if it does not, point them at `/`.
+- the old one-page-per-topic routes: `/artists`, `/piercing`, `/aftercare` → the matching section of `/`; `/artists/<slug>` → `/#artist-<slug>`; `/flash` → `/#artists` (flash now sits inside each artist); `/visit` → `/` (there is no Visit section). Whether Netlify keeps the `#fragment` in the redirect is unverified: check on a deploy preview, and if it does not, point them at `/`.
 
 ### Routing and 404s
 
@@ -338,7 +348,7 @@ base-uri 'self'; object-src 'none'; upgrade-insecure-requests
 Consequences to keep in mind:
 - **No inline scripts.** `public/boot.js` is a separate file for that reason.
 - **No `style` attributes in server-rendered HTML.** `prerender.mjs` fails the build if it finds one. Styles set from JavaScript after load are fine.
-- **No third-party scripts, fonts, embeds or maps.** Fonts are self-hosted (`@fontsource`). The Visit page links out to Google Maps instead of embedding it.
+- **No third-party scripts, fonts, embeds or maps.** Fonts are self-hosted (`@fontsource`). Maps are never embedded: link out to Google Maps instead.
 - Adding analytics or an embed means adding its origin to the right directive. Keep it to the one directive it needs.
 - The email address is assembled in the browser, so it is not in the HTML for scrapers.
 

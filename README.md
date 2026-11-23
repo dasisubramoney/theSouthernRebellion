@@ -17,7 +17,7 @@ Design rules (colours, type, the dagger motif, the motion vocabulary) are in [DE
 Branch `restructure-two-page` turns the site from one page per topic into two pages. Details of how the pieces work are under "Site structure" below.
 
 **What changed**
-- **Pages:** `/` (the hero, then six sections: Artists, Flash, Piercing, How to book, Aftercare, Visit) and `/contact` (the booking enquiry form, then "Just have a question?"). `/privacy` and `/sent` are unchanged.
+- **Pages:** `/` (the hero, then six sections at the time: Artists, Flash, Piercing, How to book, Aftercare, Visit; it is five now, see "Later change" below) and `/contact` (the booking enquiry form, then "Just have a question?"). `/privacy` and `/sent` are unchanged.
 - **Content moved, not rewritten:** each old page's copy now lives in a section component under `src/components/sections/`. Headings were demoted so each section has one `h2` and each page one `h1`; the visual classes are unchanged.
 - **Header:** sticky, with a Book button on every screen size, nav links that scroll to the section (or navigate to `/#section` from `/contact`), a highlight that follows the scroll, and a mobile menu that closes on every link tap.
 - **Calls to action:** a "Send a booking enquiry" button ends both How to book and Visit. Each artist band has "Book with <artist>", which opens `/contact?artist=<slug>`.
@@ -31,7 +31,7 @@ Branch `restructure-two-page` turns the site from one page per topic into two pa
 - The `Person` JSON-LD, which pointed at the removed artist pages.
 - Nothing in `src/content/`: all artist, portrait and portfolio data is intact. To bring the artist pages back, see "Restoring the artist pages" below.
 
-**Checked locally**
+**Checked locally (the six-section build, before the rebuild below)**
 - `npm run build` and the typecheck pass; the prerendered HTML has one `h1` per page, six sections in order, no duplicate ids and each form name registered once.
 - A Chrome run at 375, 768 and 1280 widths (nav, highlight, mobile menu, CTAs, `/contact` to `/#section`, direct loads, reduced motion, form request payloads) passed with no console errors.
 - Lighthouse on mobile scored 99 / 100 / 100 / 100 (performance, accessibility, best practices, SEO) for `/` and `/contact`.
@@ -56,6 +56,18 @@ The home page was rebuilt as the hero plus five sections: **Artists, Piercing, H
 - **Removed:** the Flash section (its content moved into the artists), the Visit section (the address and hours are in the footer; the map placeholder and parking note are no longer shown, though they are still in `src/content/studio.ts`), and the "Start from the style" list.
 - **Fixed on the way:** the portfolio grid left a solid grey block in an incomplete last row; it now uses per-cell hairlines.
 - **Needs the client:** the Instagram bio lines are shown verbatim, so some wording that was an open question is now on the page ("Co-Owner" on Bron, "Pro Artist" on Bram, "Randburg"). See `CLIENT-TODO.md`.
+- **Aftercare** is a zig-zag: from tablet width up, odd steps (1, 3, 5, 7) sit in the left column and even steps (2, 4, 6) in the right, each half a step lower. The tattoo list has seven steps and the piercing list six. The page order is still 1, 2, 3, and on phones it is one column. The title, intro and both lists are centred, and the "New tattoo / New piercing" side links were removed; the two lists keep the ids `#aftercare-tattoo` and `#aftercare-piercing`, which the Piercing section links to. Each list supports up to 12 steps (see `rowStart` in `AftercareSection.tsx`).
+- **Merged from `main`** (the other developer's commits): light and dark mode with the animated switch (see "Light and dark mode"), and the booking enquiry on `/contact` rebuilt as one question at a time over a full-bleed photo, plus a redone contact band. In the Netlify submission the name field is now `firstName` and `lastName`, and the artist is picked from lettered radio choices. The background photo needs the photographer's permission, or replacing, before launch (`CLIENT-TODO.md`).
+
+**Checked locally (after the rebuild and the merge)**
+- Typecheck and `npm run build` pass; the built pages have one `h1` each, five sections in order, no duplicate ids and each form name registered once.
+- 91 browser checks pass in Chrome at 375, 768 and 1280 widths with no console errors: nav and highlight, the mobile menu, `/contact` to `/#section`, direct loads, the artist blocks, the Gallery, the aftercare zig-zag, and the step-by-step booking form (every step of a tattoo enquiry, which has ten (a piercing enquiry has nine, as it skips colour), the request it sends, and the question form).
+- Lighthouse on mobile scored 99 / 100 / 100 / 100 for `/` and `/contact` before the merge; it has not been re-run since the merge.
+
+**Commits for this change**
+1. Rebuild the home page as Artists, Piercing, How to book, Aftercare and Gallery, with a zig-zag aftercare
+2. Update redirects and README for the five-section home page
+3. Merge remote-tracking branch 'origin/main' into restructure-two-page (brings in light and dark mode, and the booking enquiry as steps)
 
 ---
 

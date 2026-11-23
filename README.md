@@ -317,11 +317,24 @@ The full vocabulary, and the rules for adding to it, are in `DESIGN.md` under "M
 
 ### Turning effects off
 
-- **One effect, for everyone:** set its flag to `false` in `src/motion/effects.ts` (`fan`, `blade`, `reveals`, `heading`, `lightbox`, `smoothScroll`). Content is unaffected.
+- **One effect, for everyone:** set its flag to `false` in `src/motion/effects.ts` (`fan`, `blade`, `reveals`, `heading`, `lightbox`, `smoothScroll`, `themeSwitch`). Content is unaffected.
 - **All motion, for one visitor:** "Reduce motion" in the footer. It is remembered in that browser.
 - **Automatically:** visitors with the system "reduce motion" setting get no motion and never download the engine.
 
 Animate only `transform`, `opacity` and `clip-path`. New JavaScript effects go in `engine.ts` and return a `gsap.context().revert()` cleanup.
+
+---
+
+## Light and dark mode
+
+The site opens in **dark mode** for everyone, whatever their device setting. Visitors switch with the toggle in the header (a sun and a moon; the knob shows the current mode), or "Dark mode: on/off" in the footer. A light choice is remembered in that browser; switching back to dark clears it.
+
+- The colours are in `src/styles/index.css`: the `@theme` block is dark, and `:root[data-theme='light']` overrides the same tokens for light. Contrast figures for both are in `DESIGN.md`.
+- `public/boot.js` applies the saved choice before the page paints, so a returning light-mode visitor never sees a dark flash.
+- `src/lib/theme.ts` (`useTheme`) holds the logic; `src/components/layout/ThemeSwitch.tsx` is the header toggle (`role="switch"`, announced as "Dark mode, on/off"). Every switch on the page stays in step.
+- The switch is animated with the blade: the new theme comes down behind a dagger-point edge (`::view-transition-new(root)` in `index.css`, using the browser's View Transitions). It is instant with "Reduce motion" on, in browsers without View Transitions, or with `themeSwitch: false` in `src/motion/effects.ts`.
+- The logo (`StudioMark` with its disc) stays black and white in both themes.
+- **Never hard-code a colour in a component.** Use the tokens (`bg-ink`, `text-bone`, `border-pewter`, ...) so both themes keep working.
 
 ---
 

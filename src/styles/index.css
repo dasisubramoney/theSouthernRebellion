@@ -69,7 +69,66 @@
   --margin: clamp(1rem, -0.2rem + 5vw, 4rem);
   --section: clamp(4.5rem, 3rem + 6vw, 9rem);
   --measure: 66ch;
+  /* The logo itself never changes: a black disc with white daggers, in either theme. */
+  --logo-black: #0b0b0b;
+  --logo-white: #f5f3ee;
   color-scheme: dark;
+}
+
+/*
+  Light mode. Dark is the default (public/boot.js sets data-theme before first paint;
+  the footer and header switches change it). Every colour on the site goes through
+  these tokens, so light mode swaps them: "ink" becomes the light ground and "bone"
+  the dark type. The greys mirror, with ash and pewter darkened to keep AA contrast
+  on the light ground (figures in DESIGN.md). Bone bands become dark bands, which
+  keeps the page's rhythm. The error colours swap so each stays readable on its ground.
+*/
+:root[data-theme='light'] {
+  --color-ink: #f5f3ee;
+  --color-soot: #e7e5e0;
+  --color-coal: #d0ceca;
+  --color-iron: #aaa9a5;
+  --color-pewter: #878683;
+  --color-ash: #6d6c6a;
+  --color-smoke: #3a3938;
+  --color-bone: #0b0b0b;
+  --color-alert-on-ink: #b3261e;
+  --color-alert-on-bone: #ff8a7a;
+  color-scheme: light;
+}
+
+:root[data-theme='light'] [data-ground='bone'] {
+  color-scheme: dark;
+}
+
+/*
+  Theme switch: the blade. src/lib/theme.ts wraps the switch in a View Transition; the
+  new theme comes down over the old one behind a dagger-point edge, the same shape and
+  direction as the page transition. The old snapshot stays still underneath.
+  Only theme switches use View Transitions on this site, so these rules touch nothing else.
+*/
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-new(root) {
+  animation: tsr-theme-blade 0.75s var(--ease-blade) both;
+}
+
+@keyframes tsr-theme-blade {
+  from {
+    clip-path: polygon(0 0, 100% 0, 100% -16%, 50% 0%, 0 -16%);
+  }
+  to {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 116%, 0 100%);
+  }
+}
+
+/* The studio mark with its disc keeps the logo's own colours in both themes. */
+.logo-disc {
+  color: var(--logo-white);
 }
 
 @layer base {

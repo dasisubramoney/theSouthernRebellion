@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { studio } from '../../content/studio';
 import { TodoOr } from '../content/TodoNote';
 import { useMotion } from '../../lib/motion';
+import { useTheme } from '../../lib/theme';
 import { instagramUrl } from '../../lib/links';
 import { EmailLink } from './EmailLink';
 import { ExternalLink } from './ExternalLink';
@@ -10,6 +11,7 @@ import { primaryNav } from './nav';
 
 export function SiteFooter() {
   const { reduced, setChoice } = useMotion();
+  const { theme, toggle } = useTheme();
   const year = new Date().getFullYear();
 
   return (
@@ -72,14 +74,19 @@ export function SiteFooter() {
           <p className="num">
             © {year} {studio.legalName}
           </p>
-          <button
-            type="button"
-            className="link self-start text-left"
-            aria-pressed={reduced}
-            onClick={() => setChoice(reduced ? 'full' : 'reduced')}
-          >
-            Reduce motion: {reduced ? 'on' : 'off'}
-          </button>
+          <div className="flex flex-wrap gap-x-6 gap-y-2">
+            <button type="button" className="link text-left" aria-pressed={theme === 'dark'} onClick={toggle}>
+              Dark mode: {theme === 'dark' ? 'on' : 'off'}
+            </button>
+            <button
+              type="button"
+              className="link text-left"
+              aria-pressed={reduced}
+              onClick={() => setChoice(reduced ? 'full' : 'reduced')}
+            >
+              Reduce motion: {reduced ? 'on' : 'off'}
+            </button>
+          </div>
         </div>
       </div>
     </footer>

@@ -57,6 +57,18 @@ export const studio = {
     retention: pending('How long booking enquiries and reference images are kept before deletion'),
   },
 
+  established: pending('The year the studio was founded (shown as "Est." in the footer)'),
+
+  /** The poster footer (src/components/ui/strobe-footer.tsx). */
+  footer: {
+    /** Runs round the seal; the trailing dot joins the end back to the start. */
+    sealText: 'The Southern Rebellion · Tattoo & Piercing · Johannesburg · ',
+    /** Set edge to edge in the black band. "SOUTHERN REBELLION" also works. */
+    wordmark: 'REBELLION',
+    /** The barcode encodes the studio number, so it carries a real detail. */
+    barcodeDigits: '0645075342',
+  },
+
   /** Background of the booking enquiry on /contact (media/studio/booking-background.jpg). */
   bookingBackground: {
     imageKey: 'studio/booking-background',

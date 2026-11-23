@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { SiteHeader } from './SiteHeader';
-import { SiteFooter } from './SiteFooter';
+import { StrobeFooter } from '@/components/ui/strobe-footer';
 import { SmoothScroll } from '../../lib/SmoothScroll';
 
 /** Focus and scroll after navigation are handled in PageRoutes, once the new page is on screen. */
@@ -17,7 +17,7 @@ export function Layout({ children }: { children: ReactNode }) {
       <main id="main" tabIndex={-1} className="outline-none">
         {children}
       </main>
-      <SiteFooter />
+      <StrobeFooter />
       <SmoothScroll />
     </>
   );

@@ -91,6 +91,7 @@ npm run dev        # http://localhost:5173, content preview on (see below)
 | `npm run icons` | Rebuilds favicons, app icons and `public/og/studio.png` from `public/brand/mark-studio.svg` |
 | `npm run todos` | Rewrites `CLIENT-TODO.md` from the `todo(...)` markers in `src/content` |
 | `npm run typecheck` | `tsc --noEmit` |
+| `npm test` | Vitest unit tests (the footer's springs, fan angles, barcode and wordmark fit) |
 
 ### Content preview
 
@@ -121,6 +122,7 @@ src/
   pages/               One file per route: Home, Contact, Privacy, Sent, NotFound
   components/sections/ The six home-page sections (Artists, Flash, Piercing, How to book, Aftercare, Visit)
   components/          brand/ (dagger, marks, frame), forms/, layout/, media/, portfolio/, ...
+  components/ui/       shadcn-style components: strobe-footer.tsx (the site footer), its CSS, maths and tests
   motion/              engine.ts (GSAP, lazy), effects.ts (on/off switches)
   lib/                 Motion preference, reveals, Netlify form helpers, schema.org JSON-LD
   styles/index.css     Theme tokens and the CSS half of the motion
@@ -129,6 +131,8 @@ netlify.toml           Build, redirects, security headers, caching
 ```
 
 `public/img/` and `src/manifest/` are build output and are not committed.
+
+`@/` in an import means `src/` (set in `tsconfig.json` and `vite.config.ts`), so `@/components/ui/strobe-footer` is `src/components/ui/strobe-footer.tsx` from anywhere. This is the layout shadcn/ui expects, so components copied from it drop into `src/components/ui/` and resolve without edits.
 
 ---
 

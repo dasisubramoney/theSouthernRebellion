@@ -1,0 +1,528 @@
+/*
+  "Strobe" poster footer (strobe-footer.tsx). The logo's two colours only, fixed in both
+  themes: the footer is a printed poster. Layout follows the footer's own width through a
+  container query, so the server HTML is already laid out and nothing shifts on load.
+  Wide >= 1040px, mid 720-1039px, narrow < 720px.
+*/
+.sf-root {
+  --sf-paper: #f5f3ee;
+  --sf-ink: #0b0b0b;
+  --sf-muted-on-paper: #565554; /* 6.7:1 on paper */
+  --sf-muted-on-ink: #8e8d8a; /* 5.9:1 on ink */
+  --sf-display: var(--font-display);
+  --sf-text: var(--font-text);
+  container-type: inline-size;
+  container-name: sf;
+  margin-top: var(--section);
+  background-color: var(--sf-paper);
+  color: var(--sf-ink);
+  font-family: var(--sf-text);
+  --focus: var(--sf-ink);
+}
+
+.sf-frame {
+  display: flex;
+  flex-direction: column;
+}
+
+.sf-tracked {
+  font-size: 0.75rem;
+  line-height: 1.3;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.sf-on-ink {
+  background-color: var(--sf-ink);
+  color: var(--sf-paper);
+  --focus: var(--sf-paper);
+}
+
+/* ------------------------------------------------------------------ head */
+
+.sf-head {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 1rem 2rem;
+  padding: 1.5rem var(--margin);
+  border-bottom: 1px solid color-mix(in srgb, var(--sf-ink) 18%, transparent);
+}
+
+.sf-seal {
+  position: relative;
+  width: 5.5rem;
+  aspect-ratio: 1;
+}
+
+.sf-seal-mark {
+  position: absolute;
+  inset: 26%;
+  color: var(--sf-ink);
+}
+
+.sf-ring {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% 50%;
+}
+
+html[data-motion='full'] .sf-seal:hover .sf-ring {
+  animation: sf-spin 16s linear infinite;
+}
+
+@keyframes sf-spin {
+  to {
+    rotate: 360deg;
+  }
+}
+
+.sf-est {
+  justify-self: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  text-align: center;
+}
+
+.sf-est .todo {
+  max-width: 20rem;
+  font-size: 0.75rem;
+}
+
+.sf-est-year {
+  font-family: var(--sf-display);
+  font-size: clamp(1.75rem, 1rem + 2.4vw, 2.75rem);
+  line-height: 1;
+}
+
+.sf-barcode {
+  justify-self: end;
+  width: clamp(8rem, 6rem + 6vw, 11rem);
+  text-align: center;
+}
+
+.sf-barcode svg {
+  width: 100%;
+  height: 2.75rem;
+}
+
+.sf-bar {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+}
+
+.sf-digits {
+  margin-top: 0.35rem;
+  font-size: 0.6875rem;
+  letter-spacing: 0.3em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ----------------------------------------------------------------- stage */
+
+.sf-stagewrap {
+  /* The band has its own height, so the wordmark stays the same size however tall the columns make the stage. */
+  --sf-band: clamp(150px, 15cqw, 240px);
+  position: relative;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.sf-stage {
+  position: relative;
+  overflow: hidden;
+  flex: 1 1 auto;
+  min-height: calc(var(--sf-band) + 20rem);
+  isolation: isolate;
+}
+
+/* The disc: the logo's black circle, behind the mark. A button: it replays the entrance. */
+.sf-discwrap {
+  position: absolute;
+  inset: auto 0 calc(var(--sf-band) * 0.55) 0;
+  height: min(calc(100% - var(--sf-band) * 0.55 - 3rem), 26cqw, var(--sf-disc-max, 100%));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.sf-disc {
+  position: relative;
+  height: 100%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background-color: var(--sf-ink);
+  pointer-events: auto;
+  cursor: pointer;
+  outline-offset: 6px;
+}
+
+.sf-disc:focus-visible {
+  outline: 2px solid var(--sf-ink);
+}
+
+.sf-pulse {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid var(--sf-ink);
+  opacity: 0;
+  pointer-events: none;
+}
+
+html[data-motion='full'] .sf-pulse[data-on] {
+  animation: sf-pulse 0.7s var(--ease-settle) both;
+}
+
+@keyframes sf-pulse {
+  from {
+    opacity: 0.7;
+    scale: 1;
+  }
+  to {
+    opacity: 0;
+    scale: 1.25;
+  }
+}
+
+/* The black band along the bottom of the stage, with the wordmark set edge to edge. */
+.sf-band {
+  position: absolute;
+  inset: auto 0 0 0;
+  height: var(--sf-band);
+  overflow: hidden;
+  background-color: var(--sf-ink);
+  z-index: 1;
+}
+
+.sf-band svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.sf-wordmark text {
+  font-family: var(--sf-display);
+  fill: var(--sf-paper);
+}
+
+.sf-letter {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+}
+
+/* Echo daggers and the real blade: stage-sized SVGs over the band, click-through. */
+.sf-fan,
+.sf-blade {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.sf-blade {
+  z-index: 3;
+}
+
+/* Link columns in the paper flanks above the band. */
+.sf-cols {
+  position: absolute;
+  inset: 0 0 var(--sf-band) 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 1.75rem var(--margin);
+  pointer-events: none;
+  z-index: 4;
+}
+
+.sf-flank {
+  display: flex;
+  gap: 2rem;
+  align-self: flex-start;
+  pointer-events: auto;
+  max-width: 34%;
+}
+
+.sf-col {
+  min-width: 0;
+  max-width: 13.5rem;
+  overflow-wrap: break-word;
+}
+
+.sf-flank:last-child {
+  text-align: right;
+}
+
+.sf-col h2 {
+  color: var(--sf-muted-on-paper);
+}
+
+.sf-col ul {
+  margin-top: 0.75rem;
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.875rem;
+  line-height: 1.35;
+}
+
+.sf-col a,
+.sf-col button {
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  text-decoration-color: color-mix(in srgb, currentColor 35%, transparent);
+}
+
+.sf-col a:hover {
+  text-decoration-color: currentColor;
+}
+
+.sf-col .todo {
+  font-size: 0.75rem;
+  padding: 0.15em 0.4em;
+}
+
+.sf-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 0.75rem;
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 0.2rem;
+}
+
+/* ------------------------------------------------------------- legal bar */
+
+.sf-legal {
+  position: relative;
+  overflow: hidden;
+  padding: 1.25rem var(--margin);
+}
+
+.sf-floor {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.16;
+  pointer-events: none;
+}
+
+.sf-legal-row {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1.75rem;
+  font-size: 0.8125rem;
+}
+
+.sf-legal-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.75rem;
+}
+
+.sf-legal a,
+.sf-legal button {
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+/* --------------------------------------------------------------- layouts */
+
+/*
+  Each flank stacks its columns below 1200px: two columns a side do not fit beside the
+  disc until then. The disc itself is capped to the gap between the flanks from JavaScript.
+*/
+@container sf (min-width: 720px) and (max-width: 1199px) {
+  .sf-flank {
+    flex-direction: column;
+    gap: 1.25rem;
+    max-width: 27%;
+  }
+}
+
+@container sf (min-width: 720px) and (max-width: 1039px) {
+  .sf-discwrap {
+    height: min(calc(100% - var(--sf-band) * 0.55 - 3rem), 34cqw, var(--sf-disc-max, 100%));
+  }
+}
+
+/* Narrow: columns leave the stage for a 2-column grid on black below it. */
+@container sf (max-width: 719px) {
+  .sf-head {
+    grid-template-columns: auto 1fr;
+  }
+
+  .sf-est {
+    justify-self: end;
+    align-items: flex-end;
+    text-align: right;
+  }
+
+  .sf-barcode {
+    grid-column: 1 / -1;
+    justify-self: stretch;
+    width: 100%;
+  }
+
+  .sf-stage {
+    flex: none;
+    height: clamp(380px, 100vw, 540px);
+    min-height: 0;
+  }
+
+  .sf-stagewrap {
+    --sf-band: clamp(130px, 34vw, 184px);
+  }
+
+  .sf-discwrap {
+    height: min(calc(100% - var(--sf-band) * 0.55 - 2rem), 60cqw);
+  }
+
+  .sf-cols {
+    position: static;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2rem 1.5rem;
+    padding: 2rem var(--margin);
+    background-color: var(--sf-ink);
+    color: var(--sf-paper);
+    --focus: var(--sf-paper);
+  }
+
+  .sf-flank {
+    display: contents;
+  }
+
+  .sf-flank:last-child {
+    text-align: left;
+  }
+
+  .sf-col h2 {
+    color: var(--sf-muted-on-ink);
+  }
+
+  .sf-col ul {
+    font-size: 0.8125rem;
+  }
+}
+
+/* -------------------------------------------------------------- entrance */
+/*
+  The start state is applied only after hydration, and only with motion on
+  (data-sf is set from JavaScript). Without JavaScript nothing here applies.
+*/
+.sf-root[data-sf='pre'] .sf-rise,
+.sf-root[data-sf='pre'] .sf-late {
+  opacity: 0;
+}
+
+.sf-root[data-sf='pre'] .sf-bar {
+  scale: 1 0;
+}
+
+.sf-root[data-sf='pre'] .sf-disc {
+  opacity: 0;
+  scale: 0.72;
+}
+
+.sf-root[data-sf='pre'] .sf-letter {
+  opacity: 0;
+}
+
+.sf-root[data-sf='pre'] .sf-blade {
+  clip-path: inset(0 0 100% 0);
+}
+
+.sf-root[data-sf='play'] .sf-rise {
+  animation: sf-rise 0.6s var(--ease-settle) both;
+}
+
+.sf-root[data-sf='play'] .sf-bar {
+  animation: sf-grow 0.45s var(--ease-settle) both;
+}
+
+.sf-root[data-sf='play'] .sf-disc {
+  animation: sf-disc 0.9s var(--ease-settle) 80ms both;
+}
+
+.sf-root[data-sf='play'] .sf-letter {
+  animation: sf-stamp 0.42s var(--ease-blade) both;
+}
+
+.sf-root[data-sf='play'] .sf-blade {
+  animation: sf-wipe 0.8s var(--ease-blade) 380ms both;
+}
+
+.sf-root[data-sf='play'] .sf-late {
+  animation: sf-fade 0.6s var(--ease-settle) both;
+}
+
+@keyframes sf-rise {
+  from {
+    opacity: 0;
+    translate: 0 1rem;
+  }
+}
+
+@keyframes sf-grow {
+  from {
+    scale: 1 0;
+  }
+}
+
+@keyframes sf-disc {
+  from {
+    opacity: 0;
+    scale: 0.72;
+    translate: 0 6%;
+  }
+}
+
+@keyframes sf-stamp {
+  from {
+    opacity: 0;
+    scale: 1.28;
+  }
+}
+
+@keyframes sf-wipe {
+  from {
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes sf-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+/* Outlines stay hairline however far a dagger is scaled; the guard keeps its drawn weight. */
+.sf-fan :is(path, circle),
+.sf-blade :is(path, circle):not([fill='none']) {
+  vector-effect: non-scaling-stroke;
+  stroke-width: 1.25px;
+}
+
+.sf-blade :is(path, circle):not([fill='none']) {
+  stroke-width: 2px;
+}

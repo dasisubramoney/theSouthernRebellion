@@ -104,6 +104,7 @@ Fluid sizes, mobile first. Tokens live in `src/styles/index.css`.
 | `text-small` | 14px | 1.5 | Franklin 400 |
 | `ui` | 14px, sentence case | 1.4 | Franklin 600: nav, buttons, form groups, table labels |
 | `lockup` | 12px, caps, +0.16em | 1.3 | Franklin 560: the wordmark only, as on the studio's own graphics |
+| `sf-tracked` | 12px, caps, +0.18em | 1.3 | Franklin 600: the poster footer only (column titles, "Est.", "Send a booking enquiry"). The one exception to "caps for the wordmark only": the footer is set as a printed poster, where tracked caps are the label style. |
 
 - Body text is capped at `measure` (66ch).
 - Figures (prices, hours, dates, phone numbers) use `.num` for tabular lining numerals.
@@ -161,6 +162,11 @@ Small and reused. Everything is off when motion is reduced (system setting or th
 | **Lightbox.** The image grows out of its grid cell (hand-written FLIP); next and previous cross-fade. Closing returns focus to the cell of the piece last viewed. | You're looking closer at the same piece, not opening a new one. | Portfolio |
 | **Booking steps.** Each question of the booking enquiry rises in a little and fades in when it comes on screen. CSS only. | One thing to answer at a time, like a conversation at the front desk. | `/contact` booking enquiry |
 | **Theme switch: the blade.** Switching light/dark, the new theme comes down over the old one behind a dagger-point edge. About 0.75s, CSS only (View Transitions). Instant when motion is reduced or the browser has no View Transitions. | The same blade as the page transition: one studio, a different light. | Header and footer switches |
+| **Footer: the stamp.** When 20% of the footer is on screen, the seal and barcode rise, the barcode bars grow in one after another, the disc opens, the wordmark letters press down one at a time, the dagger is wiped in top to bottom and the echo daggers fan out. About 1.6s, CSS plus a small spring loop. | The poster being printed: every visit ends on the studio's mark. | Footer |
+| **Footer: the fan.** Six echo daggers each side pivot on the real dagger's point on springs, each one softer and a shade lighter. On a mouse, left/right turns the fan and up/down opens or folds it. | The three-dagger mark multiplied, like a strobe photo of a blade swung once. | Footer |
+| **Footer: the lens.** A soft circle under the pointer shows a clean copy of the gritty wordmark. | The print is rough, the studio behind it is precise. | Footer |
+| **Footer: grit.** The wordmark is printed with ragged edges and specks (SVG filter, static). | Screen-printed and hand-made, not a font on a screen. | Footer (always on; it does not move) |
+| **Footer: the seal and disc.** The seal's ring text turns while hovered; clicking the disc replays the entrance with a pulse ring; the disc follows the pointer by up to 3%. | The mark is something you can pick up and stamp again. | Footer |
 
 ### When things animate
 
@@ -212,6 +218,17 @@ Don't:
 - Centre every section, or stack eyebrow + heading + subtitle as a pattern.
 - Fade-up everything on scroll.
 - Put profanity from a tattoo into a heading, alt text summary or meta description.
+
+## The poster footer
+
+`src/components/ui/strobe-footer.tsx`, styles in `strobe-footer.css` (`.sf-` classes), maths in `strobe-footer.math.ts` (tested with `npm test`). It uses the logo's two colours in both themes: it is a printed poster, not a themed panel.
+
+- **Head (paper):** a seal with the studio name running round the dagger mark, "Est." and the year (a TODO until supplied, shown in preview builds only), "Send a booking enquiry", and a barcode that encodes the studio number (EAN left-hand patterns between 101 guards).
+- **Stage:** the logo's black disc (a button that replays the entrance), the main dagger standing with its point on the floor, the echo fan, and a black band along the bottom (its own height, 150 to 240px, so the wordmark does not grow with the columns) holding `REBELLION` fitted edge to edge and cut off by the floor. The footer is only as tall as its content, so the whole poster fits on one screen. The dagger lands on the first L and stands in for it.
+- **Columns:** Studio and Artists on the left, Visit and Follow on the right (two navs with different labels). Each side stacks its two columns below 1200px (two a side only fit beside the disc from there); below 720px they move under the stage as a two-column grid on black. Nothing is allowed to overlap: the stage grows until the columns fit above the band (the band keeps its height), the disc is capped to the gap between the two sides, the dagger is sized from the disc, and the echo daggers fade out behind the column text.
+- **Legal bar (black):** copyright, Privacy (POPIA), the dark mode and reduce motion switches, Back to top, over faint perspective floor lines.
+- **Layout follows the footer's own width** through a container query, so the server HTML is already laid out and nothing shifts. JavaScript only measures (stage size for the SVGs, the wordmark fit).
+- **Reduced motion** (system setting or the footer switch): no entrance, the fan is drawn open and still, pointer effects off. Pointer effects also need a mouse or trackpad and a footer at least 768px wide; on phones the fan opens once and stays.
 
 ## The booking enquiry
 

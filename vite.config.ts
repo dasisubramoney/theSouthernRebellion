@@ -1,4 +1,5 @@
 import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
@@ -25,6 +26,11 @@ function netlifyHeaders(): Record<string, string> {
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
+  // "@/..." points at src/, so shared UI primitives import as "@/components/ui/..." (the
+  // shadcn layout); tsconfig.json has the matching "paths" entry.
+  resolve: {
+    alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) },
+  },
   build: {
     target: 'es2020',
     sourcemap: false,

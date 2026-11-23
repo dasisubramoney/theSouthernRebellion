@@ -7,20 +7,36 @@ import { Lightbox } from './Lightbox';
 
 const placementText = (p: PortfolioEntry) => (isTodo(p.placement) ? null : p.placement);
 
-export function caption(p: PortfolioEntry) {
-  return [p.style, placementText(p)].filter(Boolean).join(' · ');
+/** "Artist · Style · Placement". The artist is only passed where work from several artists is mixed. */
+export function caption(p: PortfolioEntry, by?: string | null) {
+  return [by, p.style, placementText(p)].filter(Boolean).join(' · ');
 }
 
 /**
  * Ruled grid, like a printed flash sheet: hairline rules between cells, 4:5 crops.
  * The first featured piece takes a double cell from tablet up.
+ *
+ * `byline` names the artist on each piece (for a grid that mixes artists). `keepOrder` shows the
+ * items exactly as given, for a list that grows ("Show more") and must not reshuffle.
  */
-export function PortfolioGrid({ items, artistName }: { items: PortfolioEntry[]; artistName: string }) {
+export function PortfolioGrid({
+  items,
+  artistName,
+  label,
+  byline,
+  keepOrder,
+}: {
+  items: PortfolioEntry[];
+  artistName?: string;
+  label?: string;
+  byline?: (p: PortfolioEntry) => string | null | undefined;
+  keepOrder?: boolean;
+}) {
   const [open, setOpen] = useState<number | null>(null);
   const [origin, setOrigin] = useState<DOMRect | null>(null);
   const triggers = useRef<(HTMLButtonElement | null)[]>([]);
 
-  const ordered = [...items].sort((a, b) => Number(Boolean(b.featured)) - Number(Boolean(a.featured)));
+  const ordered = keepOrder ? items : [...items].sort((a, b) => Number(Boolean(b.featured)) - Number(Boolean(a.featured)));
 
   const lastOpen = useRef<number | null>(null);
 
@@ -42,13 +58,13 @@ export function PortfolioGrid({ items, artistName }: { items: PortfolioEntry[]; 
 
   return (
     <>
-      <ul className="grid grid-cols-2 gap-px border border-coal bg-coal md:grid-cols-3 lg:grid-cols-4">
+      <ul className="grid grid-cols-2 border-l border-t border-coal md:grid-cols-3 lg:grid-cols-4">
         {ordered.map((p, i) => {
           // The lead piece spans two columns and two rows from tablet up. Its image fills
           // whatever height the two rows beside it take, so the rules line up.
           const lead = i === 0 && ordered.length >= 5;
           return (
-            <li key={p.id} className={`flex flex-col bg-ink ${lead ? 'md:col-span-2 md:row-span-2' : ''}`}>
+            <li key={p.id} className={`flex flex-col border-b border-r border-coal bg-ink ${lead ? 'md:col-span-2 md:row-span-2' : ''}`}>
               <button
                 ref={(el) => {
                   triggers.current[i] = el;
@@ -73,7 +89,7 @@ export function PortfolioGrid({ items, artistName }: { items: PortfolioEntry[]; 
                 />
               </button>
               <div className="px-3 py-2.5 md:px-4">
-                <p className="text-small text-ash">{caption(p)}</p>
+                <p className="text-small text-ash">{caption(p, byline?.(p))}</p>
                 {contentPreview && !p.consentConfirmed ? <p className="ui mt-1 text-alert-on-ink">No consent</p> : null}
               </div>
               {contentPreview && p.needsDecision ? (
@@ -83,7 +99,15 @@ export function PortfolioGrid({ items, artistName }: { items: PortfolioEntry[]; 
           );
         })}
       </ul>
-      <Lightbox items={ordered} index={open} origin={origin} onIndex={setOpen} onClose={close} label={`Work by ${artistName}`} />
+      <Lightbox
+        items={ordered}
+        index={open}
+        origin={origin}
+        onIndex={setOpen}
+        onClose={close}
+        label={label ?? `Work by ${artistName ?? 'the studio'}`}
+        byline={byline}
+      />
     </>
   );
 }

@@ -80,7 +80,7 @@ export function PageRoutes() {
     const target = hashTarget(shown.hash);
     if (firstRender.current) {
       firstRender.current = false;
-      // A direct load of /#visit: the browser has already jumped to the section in the prerendered
+      // A direct load of /#gallery: the browser has already jumped to the section in the prerendered
       // HTML, but fonts and images can shift the layout afterwards. Land on it again once settled
       // (scroll-margin-top on the section clears the sticky header).
       if (target) requestAnimationFrame(() => target.scrollIntoView({ behavior: 'instant' }));

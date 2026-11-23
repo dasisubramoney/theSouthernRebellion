@@ -8,10 +8,9 @@ import { ExternalLink } from '../components/layout/ExternalLink';
 import { contactPath, primaryNav } from '../components/layout/nav';
 import { AftercareSection } from '../components/sections/AftercareSection';
 import { ArtistsSection } from '../components/sections/ArtistsSection';
-import { FlashSection } from '../components/sections/FlashSection';
+import { GallerySection } from '../components/sections/GallerySection';
 import { HowToBookSection } from '../components/sections/HowToBookSection';
 import { PiercingSection } from '../components/sections/PiercingSection';
-import { VisitSection } from '../components/sections/VisitSection';
 import { publishedArtists } from '../content/artists';
 import { studio } from '../content/studio';
 import { isTodo } from '../content/todo';
@@ -22,7 +21,7 @@ import { effects } from '../motion/effects';
 
 const sectionIds = primaryNav.map((item) => item.id);
 
-/** The hero, then the six sections in the order of the nav. The hero is not a section. */
+/** The hero, then the five sections in the order of the nav. The hero is not a section. */
 export default function Home() {
   useSectionSpy(sectionIds);
   return (
@@ -35,11 +34,10 @@ export default function Home() {
       />
       <Hero />
       <ArtistsSection />
-      <FlashSection />
       <PiercingSection />
       <HowToBookSection />
       <AftercareSection />
-      <VisitSection />
+      <GallerySection />
     </>
   );
 }

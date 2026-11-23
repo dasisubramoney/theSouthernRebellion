@@ -14,13 +14,15 @@ type Props = {
   onIndex: (i: number) => void;
   onClose: () => void;
   label: string;
+  /** Names the artist on each piece, where the pieces come from several artists. */
+  byline?: (p: PortfolioEntry) => string | null | undefined;
 };
 
 /**
  * Native <dialog>: focus is kept inside while open, Esc closes it, and the page
  * behind is inert. Left and right arrows move between pieces.
  */
-export function Lightbox({ items, index, origin, onIndex, onClose, label }: Props) {
+export function Lightbox({ items, index, origin, onIndex, onClose, label, byline }: Props) {
   const ref = useRef<HTMLDialogElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
   const wasOpen = useRef(false);
@@ -93,7 +95,7 @@ export function Lightbox({ items, index, origin, onIndex, onClose, label }: Prop
             </div>
             <figcaption className="measure pb-2 text-center">
               <span className="block text-small text-smoke">{item.alt}</span>
-              <span className="ui mt-2 block text-ash">{caption(item)}</span>
+              <span className="ui mt-2 block text-ash">{caption(item, byline?.(item))}</span>
             </figcaption>
           </figure>
 

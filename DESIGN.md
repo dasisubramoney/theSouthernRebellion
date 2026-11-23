@@ -159,6 +159,7 @@ Small and reused. Everything is off when motion is reduced (system setting or th
 | **Reveal: set.** The `h1` rises line by line inside a mask (SplitText). | The names are set like type on a card. | `h1`, only on pages that arrive behind the blade |
 | **Reveal: draw.** `DaggerRule` hairlines extend outward from the dagger. | Marks the start of a new section. | Dividers |
 | **Lightbox.** The image grows out of its grid cell (hand-written FLIP); next and previous cross-fade. Closing returns focus to the cell of the piece last viewed. | You're looking closer at the same piece, not opening a new one. | Portfolio |
+| **Booking steps.** Each question of the booking enquiry rises in a little and fades in when it comes on screen. CSS only. | One thing to answer at a time, like a conversation at the front desk. | `/contact` booking enquiry |
 | **Theme switch: the blade.** Switching light/dark, the new theme comes down over the old one behind a dagger-point edge. About 0.75s, CSS only (View Transitions). Instant when motion is reduced or the browser has no View Transitions. | The same blade as the page transition: one studio, a different light. | Header and footer switches |
 
 ### When things animate
@@ -211,3 +212,10 @@ Don't:
 - Centre every section, or stack eyebrow + heading + subtitle as a pattern.
 - Fade-up everything on scroll.
 - Put profanity from a tattoo into a heading, alt text summary or meta description.
+
+## The booking enquiry
+
+`/contact` asks one question at a time (`src/components/forms/BookingForm.tsx`): name, contact, artist, tattoo or piercing, placement, colour (tattoos only), the idea, references, timing, and the confirmations. Each step has a number badge, the question in the display face (one per screen, within the Sancreek rule), underline-only fields, a square OK button (Enter works too) and Back. Choices are lettered; pressing the letter picks it. Without JavaScript every step shows as one long form that still submits.
+
+It sits on a full-bleed photo (`media/studio/booking-background.jpg`) under an ink scrim. The scrim is functional, not decoration: 80% on phones; on desktop the form stays in the left half and the scrim eases from 90% to 35% across the photo so its subject shows. Inside, `data-scheme="photo"` keeps the stage dark in both themes and lifts the greys so text stays readable over the photo's lightest part (bone 10:1, hints 6.5:1, field lines 3.4:1, errors 4.9:1). The current photo needs permission or replacing before launch (see CLIENT-TODO.md).
+

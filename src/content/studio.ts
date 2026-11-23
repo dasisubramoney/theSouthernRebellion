@@ -57,6 +57,15 @@ export const studio = {
     retention: pending('How long booking enquiries and reference images are kept before deletion'),
   },
 
+  /** Background of the booking enquiry on /contact (media/studio/booking-background.jpg). */
+  bookingBackground: {
+    imageKey: 'studio/booking-background',
+    permission: pending(
+      'Who took the booking-form background photo (tattooed artist painting at a trolley), and written permission to use it on the site. Or replace it with a studio photo, ideally 2000px wide or more.',
+      'Supplied as a 736 x 981 JPEG, which is the size Pinterest serves; it looks soft on large screens.',
+    ),
+  },
+
   brandAssets: {
     logo: pending(
       'Vector logo (SVG, Illustrator or PDF) of the three-dagger mark, to replace the version traced from the Instagram profile picture',

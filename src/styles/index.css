@@ -126,6 +126,40 @@
   }
 }
 
+/*
+  Photo stage (the booking enquiry on /contact): text over a photo under an 80% ink scrim.
+  Always dark, whatever the theme, and the greys are lifted so they stay readable over the
+  lightest part of the photo (checked against its white wall under the scrim):
+  bone 10:1, hints (ash) 6.5:1, field lines (pewter) 3.4:1, errors 4.9:1.
+*/
+[data-scheme='photo'] {
+  --color-ink: #0b0b0b;
+  --color-soot: #191919;
+  --color-coal: #696866;
+  --color-iron: #c6c5c1;
+  --color-pewter: #8e8d8a;
+  --color-ash: #c6c5c1;
+  --color-smoke: #e2e0db;
+  --color-bone: #f5f3ee;
+  --color-alert-on-ink: #ff8a7a;
+  --color-alert-on-bone: #b3261e;
+  --focus: var(--color-bone);
+  color-scheme: dark;
+  color: var(--color-bone);
+}
+
+/* A booking step coming into view: rises a little and fades in. Motion on only. */
+html[data-motion='full'] [data-step-active] {
+  animation: tsr-step-in 0.5s var(--ease-settle) both;
+}
+
+@keyframes tsr-step-in {
+  from {
+    opacity: 0;
+    transform: translateY(1.5rem);
+  }
+}
+
 /* The studio mark with its disc keeps the logo's own colours in both themes. */
 .logo-disc {
   color: var(--logo-white);

@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { StudioMark } from '../brand/StudioMark';
 import { Dagger } from '../brand/Dagger';
 import { useActiveSection } from '../../lib/activeSection';
+import { ThemeSwitch } from './ThemeSwitch';
 import { contactPath, primaryNav } from './nav';
 
 export function SiteHeader() {
@@ -85,6 +86,7 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-3">
+          <ThemeSwitch />
           <Link
             to={contactPath}
             aria-current={onContact ? 'page' : undefined}

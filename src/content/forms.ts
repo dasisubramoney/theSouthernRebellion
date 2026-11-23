@@ -6,7 +6,8 @@ import { publishedArtists } from './artists.ts';
  * a hidden copy of every form into index.html so Netlify registers them.
  */
 export const bookingFields = [
-  'name',
+  'firstName',
+  'lastName',
   'email',
   'whatsapp',
   'artist',

@@ -17,4 +17,6 @@ export const effects = {
   lightbox: true,
   /** Lenis smooth scrolling on mouse and trackpad. */
   smoothScroll: true,
+  /** Light/dark switch: the new theme comes down behind a dagger-point edge. CSS only. */
+  themeSwitch: true,
 };

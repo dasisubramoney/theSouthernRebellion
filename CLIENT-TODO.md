@@ -18,6 +18,8 @@ Written by `npm run todos` from the files in `src/content`. Tick items off by up
 - [ ] This line is from streetgypsy's bio ("Tattoos for the Unique & Curious"). Confirm the studio can use it as its own line.
 - [ ] Name and contact of the POPIA information officer
 - [ ] How long booking enquiries and reference images are kept before deletion
+- [ ] Who took the booking-form background photo (tattooed artist painting at a trolley), and written permission to use it on the site. Or replace it with a studio photo, ideally 2000px wide or more.
+  - Seen so far: Supplied as a 736 x 981 JPEG, which is the size Pinterest serves; it looks soft on large screens.
 - [ ] Vector logo (SVG, Illustrator or PDF) of the three-dagger mark, to replace the version traced from the Instagram profile picture
 - [ ] Exact black and white of the logo
   - Seen so far: Sampled from the profile picture: about #020203 and #FBFBFB. Site uses #0B0B0B and #F5F3EE until confirmed.

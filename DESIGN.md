@@ -52,6 +52,30 @@ Form errors and validation only. One colour cannot reach 4.5:1 on both ink and b
 
 Errors never rely on colour alone. Every error also has text and is linked to its field with `aria-describedby`.
 
+### Light and dark mode
+
+**Dark is the default** and the brand's home: the studio's own graphics are black. Visitors switch with the toggle in the header or the text switch in the footer. The header toggle has a square-cornered track (the hairline rule) and a round knob after the logo's disc, carrying a moon (dark) or sun (light). Sun and moon are the one place icons are used: they carry the meaning. The choice is remembered in that browser only. The system light/dark setting is deliberately not followed, so the site always opens dark unless the visitor chose light.
+
+Light mode swaps the tokens, not the components. Every colour on the site goes through the tokens above, so `ink` becomes the light ground and `bone` the dark type. The greys mirror; `ash` and `pewter` are darkened slightly so they keep AA contrast on the light ground. Bone bands become dark bands, which keeps the page's rhythm. The two error tones swap so each stays on the ground it can be read on.
+
+| Token | Dark | Light | Light-mode contrast |
+|---|---|---|---|
+| `ink` (ground) | `#0B0B0B` | `#F5F3EE` | |
+| `bone` (type) | `#F5F3EE` | `#0B0B0B` | 17.75:1 on the ground |
+| `soot` | `#191919` | `#E7E5E0` | surface only |
+| `coal` | `#30302F` | `#D0CECA` | decorative lines only |
+| `iron` | `#565554` | `#AAA9A5` | 8.37:1 on a dark band |
+| `pewter` | `#696866` | `#878683` | 3.28:1 on the ground (borders) |
+| `ash` | `#8E8D8A` | `#6D6C6A` | 4.73:1 on the ground |
+| `smoke` | `#C6C5C1` | `#3A3938` | 10.39:1 on the ground |
+| `alert-on-ink` | `#FF8A7A` | `#B3261E` | 5.89:1 on the ground |
+| `alert-on-bone` | `#B3261E` | `#FF8A7A` | 8.59:1 on a dark band |
+
+Rules:
+- **The logo does not change.** `StudioMark` with its disc always draws a black disc with white daggers (`.logo-disc`, `--logo-black`, `--logo-white`). Without the disc, the daggers follow the text colour, like a one-colour logo.
+- **Never hard-code a colour in a component.** Use the tokens, or light mode breaks.
+- `public/boot.js` sets `data-theme` before first paint, so there is no flash of the wrong theme. `src/lib/theme.ts` handles the switch and the browser's `theme-color`.
+
 ## Type
 
 | Face | Use | Source |
@@ -135,6 +159,8 @@ Small and reused. Everything is off when motion is reduced (system setting or th
 | **Reveal: set.** The `h1` rises line by line inside a mask (SplitText). | The names are set like type on a card. | `h1`, only on pages that arrive behind the blade |
 | **Reveal: draw.** `DaggerRule` hairlines extend outward from the dagger. | Marks the start of a new section. | Dividers |
 | **Lightbox.** The image grows out of its grid cell (hand-written FLIP); next and previous cross-fade. Closing returns focus to the cell of the piece last viewed. | You're looking closer at the same piece, not opening a new one. | Portfolio |
+| **Booking steps.** Each question of the booking enquiry rises in a little and fades in when it comes on screen. CSS only. | One thing to answer at a time, like a conversation at the front desk. | `/contact` booking enquiry |
+| **Theme switch: the blade.** Switching light/dark, the new theme comes down over the old one behind a dagger-point edge. About 0.75s, CSS only (View Transitions). Instant when motion is reduced or the browser has no View Transitions. | The same blade as the page transition: one studio, a different light. | Header and footer switches |
 
 ### When things animate
 
@@ -186,3 +212,10 @@ Don't:
 - Centre every section, or stack eyebrow + heading + subtitle as a pattern.
 - Fade-up everything on scroll.
 - Put profanity from a tattoo into a heading, alt text summary or meta description.
+
+## The booking enquiry
+
+`/contact` asks one question at a time (`src/components/forms/BookingForm.tsx`): name, contact, artist, tattoo or piercing, placement, colour (tattoos only), the idea, references, timing, and the confirmations. Each step has a number badge, the question in the display face (one per screen, within the Sancreek rule), underline-only fields, a square OK button (Enter works too) and Back. Choices are lettered; pressing the letter picks it. Without JavaScript every step shows as one long form that still submits.
+
+It sits on a full-bleed photo (`media/studio/booking-background.jpg`) under an ink scrim. The scrim is functional, not decoration: 80% on phones; on desktop the form stays in the left half and the scrim eases from 90% to 35% across the photo so its subject shows. Inside, `data-scheme="photo"` keeps the stage dark in both themes and lifts the greys so text stays readable over the photo's lightest part (bone 10:1, hints 6.5:1, field lines 3.4:1, errors 4.9:1). The current photo needs permission or replacing before launch (see CLIENT-TODO.md).
+

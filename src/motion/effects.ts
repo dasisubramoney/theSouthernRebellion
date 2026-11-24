@@ -13,8 +13,12 @@ export const effects = {
   reveals: true,
   /** The new page's h1 rises line by line behind the blade. Needs `blade`. */
   heading: true,
-  /** Lightbox image grows out of its grid cell. */
+  /** Lightbox image grows out of its grid cell; the lightbox fades in and out. */
   lightbox: true,
+  /** Buttons shrink a touch while pressed. CSS only (`press` in index.css). */
+  press: true,
+  /** Mobile menu fades and drops in, and fades out a little faster. CSS only. */
+  menu: true,
   /** Lenis smooth scrolling on mouse and trackpad. */
   smoothScroll: true,
   /** Light/dark switch: the new theme comes down behind a dagger-point edge. CSS only. */

@@ -3,6 +3,8 @@ import { Link, useLocation } from 'react-router-dom';
 import { StudioMark } from '../brand/StudioMark';
 import { Dagger } from '../brand/Dagger';
 import { useActiveSection } from '../../lib/activeSection';
+import { press } from '../../lib/press';
+import { effects } from '../../motion/effects';
 import { ThemeSwitch } from './ThemeSwitch';
 import { contactPath, primaryNav } from './nav';
 
@@ -90,7 +92,7 @@ export function SiteHeader() {
           <Link
             to={contactPath}
             aria-current={onContact ? 'page' : undefined}
-            className="ui inline-block border border-bone px-4 py-3 transition-colors duration-200 hover:bg-bone hover:text-ink"
+            className={`ui inline-block border border-bone px-4 py-3 hover:bg-bone hover:text-ink ${press}`}
           >
             <span className="md:hidden">Book</span>
             <span className="hidden md:inline">Send a booking enquiry</span>
@@ -98,7 +100,7 @@ export function SiteHeader() {
           <button
             ref={buttonRef}
             type="button"
-            className="ui relative z-50 py-3 lg:hidden"
+            className={`ui relative z-50 py-3 lg:hidden ${press}`}
             aria-expanded={open}
             aria-controls={panelId}
             onClick={() => setOpen((v) => !v)}
@@ -108,7 +110,21 @@ export function SiteHeader() {
         </div>
       </div>
 
-      <div id={panelId} ref={panelRef} hidden={!open} className="fixed inset-0 z-40 overflow-y-auto bg-ink pt-20 lg:hidden">
+      {/*
+        Closed, the panel is invisible (visibility: hidden), which also takes it out of the tab order and
+        the accessibility tree. With effects.menu it fades and drops 8px in over 200ms and leaves over
+        150ms. Opening, visibility is not transitioned, so the panel is visible at once and the first link
+        can take focus; closing, it is, so the panel stays visible until it has faded out.
+      */}
+      <div
+        id={panelId}
+        ref={panelRef}
+        className={`fixed inset-0 z-40 overflow-y-auto bg-ink pt-20 lg:hidden ${
+          effects.menu
+            ? `ease-(--ease-quick) ${open ? 'transition-[opacity,translate] duration-200' : 'transition-[opacity,translate,visibility] duration-150'}`
+            : ''
+        } ${open ? 'visible opacity-100' : 'invisible -translate-y-2 opacity-0'}`}
+      >
         <nav aria-label="Main, mobile" className="shell pb-12">
           <ul className="border-t border-coal">
             {primaryNav.map((item) => {
@@ -131,7 +147,7 @@ export function SiteHeader() {
           <Link
             to={contactPath}
             onClick={() => setOpen(false)}
-            className="ui mt-8 block border border-bone px-4 py-4 text-center"
+            className={`ui mt-8 block border border-bone px-4 py-4 text-center ${press}`}
           >
             Send a booking enquiry
           </Link>

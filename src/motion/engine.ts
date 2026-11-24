@@ -46,7 +46,7 @@ export function scrollTo(target: number | HTMLElement, immediate = true) {
     // Lenis clamps to the page height it measured last. After a page swap (the short contact page
     // to the long home page) that height is stale, so measure again before scrolling.
     lenis.resize();
-    lenis.scrollTo(target, immediate ? { immediate: true, force: true } : { duration: 0.9, force: true });
+    lenis.scrollTo(target, immediate ? { immediate: true, force: true } : { duration: 0.6, force: true });
   }
   else if (typeof target === 'number') window.scrollTo({ top: target, behavior: immediate ? 'instant' : 'auto' });
   else target.scrollIntoView(immediate ? { behavior: 'instant' } : undefined);
@@ -54,13 +54,17 @@ export function scrollTo(target: number | HTMLElement, immediate = true) {
 
 /* ----------------------------------------------------------------- blade */
 
-/** Panel comes down over the old page. Resolves when the screen is covered. */
+/**
+ * Panel comes down over the old page. Resolves when the screen is covered. It accelerates in and
+ * `uncover` decelerates out, so the two read as one fall; power2 rather than power3 so the start,
+ * right after the click, does not hang.
+ */
 export function cover(panel: HTMLElement): Promise<void> {
   return new Promise((resolve) => {
     gsap.fromTo(
       panel,
       { yPercent: -110, visibility: 'visible' },
-      { yPercent: 0, duration: 0.34, ease: 'power3.in', onComplete: () => resolve() },
+      { yPercent: 0, duration: 0.28, ease: 'power2.in', onComplete: () => resolve() },
     );
   });
 }
@@ -120,10 +124,10 @@ export function flipFrom(wrapper: HTMLElement, from: DOMRect) {
   return () => ctx.revert();
 }
 
-/** Moving between pieces inside the lightbox: a short cross-fade, no travel. */
+/** Moving between pieces inside the lightbox with the buttons: a short fade-in, no travel. Arrow keys skip it. */
 export function swapIn(el: HTMLElement) {
   const ctx = gsap.context(() => {
-    gsap.from(el, { opacity: 0, duration: 0.25, ease: 'power1.out' });
+    gsap.from(el, { opacity: 0, duration: 0.2, ease: 'power2.out' });
   });
   return () => ctx.revert();
 }

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { honeypotField } from '../../content/forms';
 import { studio } from '../../content/studio';
 import { emailPattern, formDataFrom, submitNetlifyForm } from '../../lib/netlifyForm';
+import { press } from '../../lib/press';
 import { ExternalLink } from '../layout/ExternalLink';
 import { Check, Field, Honeypot, controlClass } from './Field';
 
@@ -82,7 +83,7 @@ export function ContactForm() {
         .
       </Check>
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:gap-8">
-        <button type="submit" disabled={status === 'sending'} className="ui border border-bone px-6 py-4 transition-colors duration-200 hover:bg-bone hover:text-ink disabled:opacity-60">
+        <button type="submit" disabled={status === 'sending'} className={`ui border border-bone px-6 py-4 hover:bg-bone hover:text-ink disabled:opacity-60 ${press}`}>
           {status === 'sending' ? 'Sending…' : 'Send your question'}
         </button>
         <p aria-live="polite" className="text-small">

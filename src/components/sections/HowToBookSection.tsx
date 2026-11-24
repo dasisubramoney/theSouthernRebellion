@@ -5,6 +5,7 @@ import { TodoNote } from '../content/TodoNote';
 import { contactPath } from '../layout/nav';
 import { booking } from '../../content/booking';
 import { isTodo, type Maybe } from '../../content/todo';
+import { press } from '../../lib/press';
 
 const policyRows: { label: string; value: Maybe<string> }[] = [
   { label: 'Deposits', value: booking.policies.deposits },
@@ -57,7 +58,7 @@ export function HowToBookSection() {
           <p className="col-span-4 md:col-span-8 lg:col-span-7 lg:col-start-6">
             <Link
               to={contactPath}
-              className="ui inline-flex items-center gap-3 bg-ink px-5 py-4 text-bone transition-colors duration-200 hover:bg-iron"
+              className={`ui inline-flex items-center gap-3 bg-ink px-5 py-4 text-bone hover:bg-iron ${press}`}
             >
               Send a booking enquiry
               <Dagger point="right" className="h-3 w-auto" />

@@ -33,8 +33,9 @@ export function setupReveals(main: HTMLElement, { afterCover }: { afterCover: bo
     frame = 0;
     const due = pending.filter((el) => el.getBoundingClientRect().top < line());
     if (!due.length) return;
+    // Staggered, but capped: in a long grid no piece waits more than 240ms for its turn.
     due.forEach((el, i) => {
-      el.style.transitionDelay = `${base + i * 70}ms`;
+      el.style.transitionDelay = `${base + Math.min(i * 60, 240)}ms`;
       el.classList.remove('reveal-out');
     });
     base = 0;

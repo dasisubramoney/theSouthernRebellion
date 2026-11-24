@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import type { Artist } from '../../content/types';
 import { instagramUrl, whatsappUrl } from '../../lib/links';
+import { press } from '../../lib/press';
 import { Dagger } from '../brand/Dagger';
 import { EmailLink } from '../layout/EmailLink';
 import { ExternalLink } from '../layout/ExternalLink';
@@ -12,7 +13,7 @@ export function BookingChannels({ artist }: { artist: Artist }) {
     <div>
       <Link
         to={`/contact?artist=${artist.slug}`}
-        className="ui inline-flex items-center gap-3 bg-bone px-5 py-4 text-ink transition-colors duration-200 hover:bg-smoke"
+        className={`ui inline-flex items-center gap-3 bg-bone px-5 py-4 text-ink hover:bg-smoke ${press}`}
       >
         Send {artist.name} a booking enquiry
         <Dagger point="right" className="h-3 w-auto" />

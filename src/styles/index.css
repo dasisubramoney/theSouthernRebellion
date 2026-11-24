@@ -62,6 +62,23 @@
 
   --ease-blade: cubic-bezier(0.7, 0, 0.2, 1);
   --ease-settle: cubic-bezier(0.2, 0.8, 0.2, 1);
+  /* Small UI answering the visitor (a press, a menu, the lightbox): starts fast, settles quickly. */
+  --ease-quick: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/*
+  Press feedback for buttons and button-like links: they shrink a touch while held, so the page
+  answers the press before anything else happens. Also carries the buttons' colour change on hover.
+  Applied through `press` in src/lib/press.ts (switch: effects.press). The shrink is motion-on only.
+*/
+@utility press {
+  transition-property: color, background-color, border-color, scale;
+  transition-duration: 160ms;
+  transition-timing-function: var(--ease-quick);
+
+  html[data-motion='full'] &:active:not(:disabled) {
+    scale: 0.97;
+  }
 }
 
 :root {
@@ -296,8 +313,11 @@ html[data-motion='full'] [data-step-active] {
     transition: text-decoration-thickness 160ms var(--ease-settle);
   }
 
-  .link:hover {
-    text-decoration-thickness: 2px;
+  /* Hover only where there is a pointer that hovers, as Tailwind's hover: does: a tap must not leave it stuck on. */
+  @media (hover: hover) {
+    .link:hover {
+      text-decoration-thickness: 2px;
+    }
   }
 
   .visually-hidden {
@@ -348,6 +368,42 @@ html[data-motion='full'] {
 
 .lightbox::backdrop {
   background-color: var(--color-ink);
+}
+
+/*
+  Lightbox open and close (the .lightbox-fade class, set when effects.lightbox is on): the dialog and
+  its backdrop fade in over 200ms everywhere. The 150ms fade out needs the dialog to stay in the top
+  layer while it fades (transitioning `overlay`). A browser that cannot do that (Safari, Firefox at
+  the time of writing) would show the closing dialog out of the top layer, under the header and still
+  clickable, so there the fade out is left off and the lightbox closes at once.
+*/
+html[data-motion='full'] .lightbox-fade,
+html[data-motion='full'] .lightbox-fade::backdrop {
+  opacity: 0;
+  transition-property: opacity;
+  transition-duration: 150ms;
+  transition-timing-function: var(--ease-quick);
+}
+
+@supports (overlay: auto) {
+  html[data-motion='full'] .lightbox-fade,
+  html[data-motion='full'] .lightbox-fade::backdrop {
+    transition-property: opacity, display, overlay;
+    transition-behavior: allow-discrete;
+  }
+}
+
+html[data-motion='full'] .lightbox-fade[open],
+html[data-motion='full'] .lightbox-fade[open]::backdrop {
+  opacity: 1;
+  transition-duration: 200ms;
+}
+
+@starting-style {
+  html[data-motion='full'] .lightbox-fade[open],
+  html[data-motion='full'] .lightbox-fade[open]::backdrop {
+    opacity: 0;
+  }
 }
 
 /*
@@ -414,7 +470,7 @@ html[data-motion='full'] [data-fan='disc'] {
   first load, or everything behind the blade after a navigation. No script, no hiding.
 */
 html[data-motion='full'] [data-reveal='cut'] {
-  transition: clip-path 0.9s var(--ease-blade);
+  transition: clip-path 0.6s var(--ease-blade);
 }
 
 html[data-motion='full'] [data-reveal='cut'].reveal-out {
@@ -422,7 +478,7 @@ html[data-motion='full'] [data-reveal='cut'].reveal-out {
 }
 
 html[data-motion='full'] [data-reveal^='draw'] {
-  transition: transform 0.8s var(--ease-blade);
+  transition: transform 0.6s var(--ease-blade);
 }
 
 html[data-motion='full'] [data-reveal^='draw'].reveal-out {

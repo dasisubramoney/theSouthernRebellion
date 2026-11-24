@@ -68,8 +68,11 @@
   transform-origin: 50% 50%;
 }
 
-html[data-motion='full'] .sf-seal:hover .sf-ring {
-  animation: sf-spin 16s linear infinite;
+/* Hover only where the pointer hovers: on a phone a tap would otherwise leave it spinning. */
+@media (hover: hover) {
+  html[data-motion='full'] .sf-seal:hover .sf-ring {
+    animation: sf-spin 16s linear infinite;
+  }
 }
 
 @keyframes sf-spin {
@@ -283,8 +286,10 @@ html[data-motion='full'] .sf-pulse[data-on] {
   text-decoration-color: color-mix(in srgb, currentColor 35%, transparent);
 }
 
-.sf-col a:hover {
-  text-decoration-color: currentColor;
+@media (hover: hover) {
+  .sf-col a:hover {
+    text-decoration-color: currentColor;
+  }
 }
 
 .sf-col .todo {

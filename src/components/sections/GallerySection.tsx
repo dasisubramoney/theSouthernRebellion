@@ -5,6 +5,7 @@ import { publishedArtists } from '../../content/artists';
 import { portfolio } from '../../content/portfolio';
 import type { ArtistSlug, PortfolioEntry } from '../../content/types';
 import { portfolioFor } from '../../lib/preview';
+import { press } from '../../lib/press';
 
 /** How many pieces show at first, and how many each "Show more" adds. */
 const PAGE = 12;
@@ -61,7 +62,7 @@ export function GallerySection() {
                       setOnly(a.slug);
                       setLimit(PAGE);
                     }}
-                    className="ui border border-pewter px-4 py-3 aria-pressed:border-bone aria-pressed:bg-bone aria-pressed:text-ink"
+                    className={`ui border border-pewter px-4 py-3 aria-pressed:border-bone aria-pressed:bg-bone aria-pressed:text-ink ${press}`}
                   >
                     {a.name}
                   </button>
@@ -80,7 +81,7 @@ export function GallerySection() {
                   <button
                     type="button"
                     onClick={() => setLimit((n) => n + PAGE)}
-                    className="ui border border-bone px-6 py-4 transition-colors duration-200 hover:bg-bone hover:text-ink"
+                    className={`ui border border-bone px-6 py-4 hover:bg-bone hover:text-ink ${press}`}
                   >
                     Show more
                   </button>

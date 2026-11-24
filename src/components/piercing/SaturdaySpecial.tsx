@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { piercing } from '../../content/piercing';
 import { isTodo } from '../../content/todo';
+import { press } from '../../lib/press';
 import { EmailLink } from '../layout/EmailLink';
 import { TodoNote } from '../content/TodoNote';
 
@@ -29,7 +30,7 @@ export function SaturdaySpecial({ id = 'special' }: { id?: string }) {
           <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4">
             <Link
               to="/contact?artist=piercing"
-              className="ui inline-flex items-center gap-3 border border-bone px-5 py-4 transition-colors duration-200 hover:bg-bone hover:text-ink"
+              className={`ui inline-flex items-center gap-3 border border-bone px-5 py-4 hover:bg-bone hover:text-ink ${press}`}
             >
               Book a Saturday piercing
             </Link>

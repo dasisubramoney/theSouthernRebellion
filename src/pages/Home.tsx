@@ -16,6 +16,7 @@ import { studio } from '../content/studio';
 import { isTodo } from '../content/todo';
 import { useSectionSpy } from '../lib/activeSection';
 import { contentPreview, leadPiece } from '../lib/preview';
+import { press } from '../lib/press';
 import { studioSchema } from '../lib/schema';
 import { effects } from '../motion/effects';
 
@@ -63,7 +64,7 @@ function Hero() {
           <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4">
             <Link
               to={contactPath}
-              className="ui inline-flex items-center gap-3 bg-bone px-5 py-4 text-ink transition-colors duration-200 hover:bg-smoke"
+              className={`ui inline-flex items-center gap-3 bg-bone px-5 py-4 text-ink hover:bg-smoke ${press}`}
             >
               Send a booking enquiry
               <Dagger point="right" className="h-3 w-auto" />

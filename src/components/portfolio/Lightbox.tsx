@@ -5,6 +5,7 @@ import { Dagger } from '../brand/Dagger';
 import { caption } from './PortfolioGrid';
 import { useEngine } from '../../lib/useEngine';
 import { effects } from '../../motion/effects';
+import { press } from '../../lib/press';
 
 type Props = {
   items: PortfolioEntry[];
@@ -26,16 +27,25 @@ export function Lightbox({ items, index, origin, onIndex, onClose, label, byline
   const ref = useRef<HTMLDialogElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
   const wasOpen = useRef(false);
-  const item = index === null ? null : items[index];
+  /** True when the last move between pieces came from an arrow key. */
+  const byKey = useRef(false);
+  // While the dialog fades out (index is already null) it keeps showing the piece it closed on.
+  const lastIndex = useRef<number | null>(index);
+  if (index !== null) lastIndex.current = index;
+  const shownIndex = index ?? lastIndex.current;
+  const item = shownIndex === null ? null : items[shownIndex];
 
-  // First open: grow from the grid cell. Next/previous: short cross-fade.
+  // First open: grow from the grid cell. Next/previous with the buttons: a short fade-in.
+  // Arrow keys: no animation, so paging through quickly keeps up with the keys.
   useEngine(
     (e) => {
       const el = imageRef.current;
       if (!el) return;
       const first = !wasOpen.current;
       wasOpen.current = true;
-      return first && origin ? e.flipFrom(el, origin) : e.swapIn(el);
+      if (first && origin) return e.flipFrom(el, origin);
+      if (byKey.current) return;
+      return e.swapIn(el);
     },
     [index],
     { enabled: effects.lightbox && index !== null },
@@ -46,15 +56,20 @@ export function Lightbox({ items, index, origin, onIndex, onClose, label, byline
     if (!d) return;
     if (index !== null && !d.open) d.showModal();
     if (index === null && d.open) d.close();
-    // Closed: the next open grows from its cell again rather than cross-fading.
-    if (index === null) wasOpen.current = false;
+    // Closed: the next open grows from its cell again rather than cross-fading, and starts with no
+    // memory of the last session's arrow keys.
+    if (index === null) {
+      wasOpen.current = false;
+      byKey.current = false;
+    }
   }, [index]);
 
   useEffect(() => {
     if (index === null) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowRight') onIndex((index + 1) % items.length);
-      if (e.key === 'ArrowLeft') onIndex((index - 1 + items.length) % items.length);
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+      byKey.current = true;
+      onIndex(e.key === 'ArrowRight' ? (index + 1) % items.length : (index - 1 + items.length) % items.length);
     };
     document.addEventListener('keydown', onKey);
     return () => document.removeEventListener('keydown', onKey);
@@ -68,15 +83,15 @@ export function Lightbox({ items, index, origin, onIndex, onClose, label, byline
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
-      className="lightbox m-0 h-dvh max-h-none w-screen max-w-none bg-ink/95 p-0 text-bone"
+      className={`lightbox m-0 h-dvh max-h-none w-screen max-w-none bg-ink/95 p-0 text-bone ${effects.lightbox ? 'lightbox-fade' : ''}`}
     >
-      {item && index !== null ? (
+      {item && shownIndex !== null ? (
         <div className="flex h-full flex-col">
           <div className="shell flex items-center justify-between py-4">
             <p className="ui num text-ash">
-              {index + 1} / {items.length}
+              {shownIndex + 1} / {items.length}
             </p>
-            <button type="button" className="ui py-2" onClick={onClose} autoFocus>
+            <button type="button" className={`ui py-2 ${press}`} onClick={onClose} autoFocus>
               Close
             </button>
           </div>
@@ -102,16 +117,22 @@ export function Lightbox({ items, index, origin, onIndex, onClose, label, byline
           <div className="shell flex items-center justify-between border-t border-coal py-3">
             <button
               type="button"
-              className="ui flex items-center gap-2 py-3"
-              onClick={() => onIndex((index - 1 + items.length) % items.length)}
+              className={`ui flex items-center gap-2 py-3 ${press}`}
+              onClick={() => {
+                byKey.current = false;
+                onIndex((shownIndex - 1 + items.length) % items.length);
+              }}
             >
               <Dagger point="left" className="h-3 w-auto" />
               Previous
             </button>
             <button
               type="button"
-              className="ui flex items-center gap-2 py-3"
-              onClick={() => onIndex((index + 1) % items.length)}
+              className={`ui flex items-center gap-2 py-3 ${press}`}
+              onClick={() => {
+                byKey.current = false;
+                onIndex((shownIndex + 1) % items.length);
+              }}
             >
               Next
               <Dagger point="right" className="h-3 w-auto" />

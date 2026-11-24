@@ -7,6 +7,7 @@ import { honeypotField } from '../../content/forms';
 import { isTodo } from '../../content/todo';
 import { studio } from '../../content/studio';
 import { emailPattern, formDataFrom, shrinkImages, submitNetlifyForm, totalFileBytes } from '../../lib/netlifyForm';
+import { press } from '../../lib/press';
 import { ExternalLink } from '../layout/ExternalLink';
 import { TodoNote } from '../content/TodoNote';
 import { Dagger } from '../brand/Dagger';
@@ -91,7 +92,7 @@ function Choices({ name, labelledBy, options, value, onChange, error }: { name: 
         {options.map((o, i) => (
           <label
             key={o.value}
-            className="flex cursor-pointer items-start gap-3 border border-pewter bg-ink/40 px-4 py-3 transition-colors duration-150 hover:border-bone has-[:checked]:border-bone has-[:checked]:bg-bone has-[:checked]:text-ink has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-bone"
+            className={`flex cursor-pointer items-start gap-3 border border-pewter bg-ink/40 px-4 py-3 hover:border-bone has-[:checked]:border-bone has-[:checked]:bg-bone has-[:checked]:text-ink has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-bone ${press}`}
           >
             <input type="radio" name={name} value={o.value} checked={value === o.value} onChange={() => onChange(o.value)} required className="visually-hidden" />
             <span aria-hidden="true" className="ui num mt-0.5 inline-flex size-6 shrink-0 items-center justify-center border border-current">
@@ -295,11 +296,11 @@ export function BookingForm() {
         {enhanced ? (
           <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-4 pl-10">
             {last ? (
-              <button type="submit" disabled={status === 'sending'} className="ui bg-bone px-6 py-4 text-ink transition-colors duration-200 hover:bg-smoke disabled:opacity-60">
+              <button type="submit" disabled={status === 'sending'} className={`ui bg-bone px-6 py-4 text-ink hover:bg-smoke disabled:opacity-60 ${press}`}>
                 {status === 'sending' ? 'Sending…' : who ? `Send ${who} your enquiry` : 'Send your enquiry'}
               </button>
             ) : (
-              <button type="button" onClick={next} className="ui inline-flex items-center gap-3 bg-bone px-6 py-3 text-ink transition-colors duration-200 hover:bg-smoke">
+              <button type="button" onClick={next} className={`ui inline-flex items-center gap-3 bg-bone px-6 py-3 text-ink hover:bg-smoke ${press}`}>
                 OK
                 <Dagger point="right" className="h-2.5 w-auto" />
               </button>
@@ -514,7 +515,7 @@ export function BookingForm() {
         {/* Without JavaScript every step shows and this sends the whole form natively. */}
         {!enhanced ? (
           <div className="mt-10">
-            <button type="submit" className="ui bg-bone px-6 py-4 text-ink">
+            <button type="submit" className={`ui bg-bone px-6 py-4 text-ink ${press}`}>
               Send your enquiry
             </button>
           </div>

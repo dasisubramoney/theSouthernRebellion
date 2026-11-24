@@ -442,13 +442,11 @@ export function StrobeFooter({ wordmark = studio.footer.wordmark }: Props) {
     {
       title: 'Studio',
       items: [
-        ...primaryNav
-          .filter((n) => n.id !== 'visit')
-          .map((n) => (
-            <Link key={n.id} to={n.to}>
-              {n.label}
-            </Link>
-          )),
+        ...primaryNav.map((n) => (
+          <Link key={n.id} to={n.to}>
+            {n.label}
+          </Link>
+        )),
       ],
     },
     {

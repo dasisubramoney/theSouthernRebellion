@@ -36,8 +36,8 @@ export function ArtistsSection() {
   return (
     <section id="artists" aria-labelledby="artists-heading" className="scroll-mt-24">
       <div className="shell">
-        <h2 id="artists-heading" className="max-w-[16ch] font-display text-h1">
-          Pick the artist whose work you want
+        <h2 id="artists-heading" className="font-display text-h1">
+          The Artists
         </h2>
         <p className="measure mt-6 text-lead text-smoke">
           Each artist runs their own book, so choose by the work. Still unsure? Choose “Not sure, help me choose” on the{' '}

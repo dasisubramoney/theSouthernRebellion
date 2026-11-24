@@ -144,7 +144,7 @@ html[data-motion='full'] .sf-seal:hover .sf-ring {
 .sf-discwrap {
   position: absolute;
   inset: auto 0 calc(var(--sf-band) * 0.55) 0;
-  height: min(calc(100% - var(--sf-band) * 0.55 - 3rem), 26cqw, var(--sf-disc-max, 100%));
+  height: min(calc(100% - var(--sf-band) * 0.55 - 3rem), 22cqw, 300px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -346,7 +346,7 @@ html[data-motion='full'] .sf-pulse[data-on] {
 
 /*
   Each flank stacks its columns below 1200px: two columns a side do not fit beside the
-  disc until then. The disc itself is capped to the gap between the flanks from JavaScript.
+  disc until then. JavaScript grows the stage so the disc starts below the columns.
 */
 @container sf (min-width: 720px) and (max-width: 1199px) {
   .sf-flank {
@@ -358,7 +358,7 @@ html[data-motion='full'] .sf-pulse[data-on] {
 
 @container sf (min-width: 720px) and (max-width: 1039px) {
   .sf-discwrap {
-    height: min(calc(100% - var(--sf-band) * 0.55 - 3rem), 34cqw, var(--sf-disc-max, 100%));
+    height: min(calc(100% - var(--sf-band) * 0.55 - 3rem), 30cqw, 280px);
   }
 }
 

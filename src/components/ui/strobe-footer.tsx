@@ -169,13 +169,17 @@ export function StrobeFooter({ wordmark = studio.footer.wordmark }: Props) {
     if (!st || !bd) return;
     const cols = colsRef.current;
     const ro = new ResizeObserver(() => {
-      // Columns over the stage (wide and mid): grow the stage so they always fit above the band.
+      // Columns over the stage (wide and mid): grow the stage so the disc starts below the
+      // tallest column and the columns read cleanly above the animation.
       const over = cols && getComputedStyle(cols).position === 'absolute';
+      const wrap = st.querySelector<HTMLElement>('.sf-discwrap');
       if (over) {
         const cs = getComputedStyle(cols);
         const pad = (parseFloat(cs.paddingTop) || 0) + (parseFloat(cs.paddingBottom) || 0);
         const tallest = Math.max(0, ...[...cols.querySelectorAll<HTMLElement>('.sf-flank')].map((f) => f.offsetHeight));
-        const need = Math.ceil(tallest + pad + bd.offsetHeight);
+        const disc = wrap?.offsetHeight ?? 0;
+        const sunk = parseFloat(getComputedStyle(wrap ?? st).bottom) || 0;
+        const need = Math.ceil(tallest + pad + disc + sunk);
         st.style.minHeight = `${need}px`;
       } else {
         st.style.minHeight = '';
@@ -185,16 +189,6 @@ export function StrobeFooter({ wordmark = studio.footer.wordmark }: Props) {
       setStage({ w: Math.round(s.width), h: Math.round(s.height) });
       setBand({ w: Math.round(b.width), h: Math.round(b.height) });
       setPointerOn(!reduced && window.matchMedia('(pointer: fine)').matches && s.width >= 768);
-      // Keep the disc clear of the columns: at most the gap between the two flanks.
-      const fl = over ? [...cols.querySelectorAll<HTMLElement>('.sf-flank')].map((f) => f.getBoundingClientRect()) : [];
-      const wrap = st.querySelector<HTMLElement>('.sf-discwrap');
-      if (wrap && fl.length === 2) {
-        const mid = s.left + s.width / 2;
-        const room = 2 * Math.min(mid - fl[0]!.right, fl[1]!.left - mid) - 48;
-        wrap.style.setProperty('--sf-disc-max', `${Math.max(160, Math.floor(room))}px`);
-      } else {
-        wrap?.style.removeProperty('--sf-disc-max');
-      }
       if (wrap) setReach(Math.round(s.height - (wrap.offsetTop + wrap.offsetHeight * 0.1)));
       setFlanks(
         over

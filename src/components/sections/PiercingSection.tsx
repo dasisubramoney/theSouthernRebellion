@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { DaggerRule } from '../brand/DaggerRule';
 import { TodoNote } from '../content/TodoNote';
@@ -8,8 +9,19 @@ import { piercing } from '../../content/piercing';
 import { isTodo, type Maybe } from '../../content/todo';
 import { portfolioFor } from '../../lib/preview';
 
-const facts: { label: string; value: Maybe<string> }[] = [
-  { label: 'Piercings and prices', value: piercing.services },
+const piercingList = (
+  <ul className="space-y-2">
+    {piercing.services.map((g) => (
+      <li key={g.area}>
+        <span className="font-semibold">{g.area}:</span> {g.piercings.join(', ')}
+      </li>
+    ))}
+  </ul>
+);
+
+const facts: { label: string; value: Maybe<ReactNode> }[] = [
+  { label: 'Piercings we do', value: piercingList },
+  { label: 'Prices', value: piercing.prices },
   { label: 'Jewellery', value: piercing.jewellery },
   { label: 'Age and ID', value: piercing.agePolicy },
   { label: 'Downsizing and changes', value: piercing.downsizing },

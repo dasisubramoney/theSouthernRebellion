@@ -43,9 +43,12 @@ if (unconfirmedFlash.length) {
 }
 parts.push(section('Flash', flashItems));
 parts.push(section('Piercing', collect(piercing)));
-// Steps and sections carry their heading, so each question reads on its own.
+// Steps and sections carry their heading, so each question reads on its own. A step can be a TODO
+// itself (body), or have the studio's text plus a question still open about it (open).
 const withHeading = (prefix, list, key) =>
-  list.filter((x) => isTodo(x.body)).map((x) => ({ ...x.body, todo: `${prefix}, "${x[key]}": ${x.body.todo}` }));
+  list.flatMap((x) =>
+    [x.body, x.open].filter(isTodo).map((t) => ({ ...t, todo: `${prefix}, "${x[key]}": ${t.todo}` })),
+  );
 
 const { steps, ...bookingRest } = booking;
 parts.push(section('Booking', [...withHeading('Step', steps, 'title'), ...collect(bookingRest)]));

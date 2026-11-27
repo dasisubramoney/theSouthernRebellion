@@ -3,9 +3,9 @@ import { TodoNote, TodoOr } from '../content/TodoNote';
 import { ExternalLink } from '../layout/ExternalLink';
 import { aftercare } from '../../content/aftercare';
 import { studio } from '../../content/studio';
-import { isTodo, type Maybe } from '../../content/todo';
+import { isTodo, type Maybe, type Todo } from '../../content/todo';
 
-type Section = { heading: string; body: Maybe<string> };
+type Section = { heading: string; body: Maybe<string | readonly string[]>; open?: Todo };
 
 /** Ids are prefixed so they cannot collide with the page's own section ids ("#piercing" is the piercing section). */
 const parts = [
@@ -76,8 +76,19 @@ export function AftercareSection() {
                       <span className="ui num">{i + 1}</span>
                     </span>
                     <div>
-                      <h4 className="text-h3 font-semibold">{s.heading}</h4>
-                      {isTodo(s.body) ? <TodoNote className="mt-3" item={s.body} /> : <p className="measure mt-2">{s.body}</p>}
+                      <h4 className="font-serif text-h3 font-semibold">{s.heading}</h4>
+                      {isTodo(s.body) ? (
+                        <TodoNote className="mt-3" item={s.body} />
+                      ) : typeof s.body === 'string' ? (
+                        <p className="measure mt-2">{s.body}</p>
+                      ) : (
+                        <ul className="measure mt-2 space-y-2">
+                          {s.body.map((line) => (
+                            <li key={line}>{line}</li>
+                          ))}
+                        </ul>
+                      )}
+                      {s.open ? <TodoNote className="mt-3" item={s.open} /> : null}
                     </div>
                   </li>
                 ))}

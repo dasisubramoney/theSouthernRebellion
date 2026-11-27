@@ -10,7 +10,7 @@ import { isTodo } from '../content/todo';
 function Block({ title, children }: { title: string; children: ReactNode }) {
   return (
     <section className="border-t border-ink/20 py-8">
-      <h2 className="text-h3 font-semibold">{title}</h2>
+      <h2 className="font-serif text-h3 font-semibold">{title}</h2>
       <div className="measure mt-3 space-y-3">{children}</div>
     </section>
   );
@@ -43,7 +43,9 @@ export default function Privacy() {
 
             <div className="col-span-4 md:col-span-8 lg:col-span-7 lg:col-start-6">
               <Block title="Who is responsible">
-                <p>{studio.legalName}, {studio.location.centre}, {studio.location.city}.</p>
+                <p>
+                  {studio.legalName}, {studio.location.street}, {studio.location.areaName}, {studio.location.postalCode}.
+                </p>
                 {isTodo(privacy.informationOfficer) ? <TodoNote item={privacy.informationOfficer} /> : <p>{privacy.informationOfficer}</p>}
                 <TodoOr value={studio.registrationNumber}>{(n) => <p>Registration number: {n}</p>}</TodoOr>
               </Block>

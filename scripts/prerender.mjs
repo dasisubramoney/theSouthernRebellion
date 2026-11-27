@@ -15,11 +15,13 @@ const { render, staticPaths, unlistedPaths, bookingFields, bookingFormNames, con
 
 const template = await readFile(path.join(DIST, 'index.html'), 'utf8');
 
-// Preload the two latin font files so text does not reflow when they arrive.
+// Preload the display and text font files so text does not reflow when they arrive.
+// (Bodoni Moda is only used for subheadings further down the page, so it loads normally.)
 const assets = await readdir(path.join(DIST, 'assets'));
+const fontType = (f) => (f.endsWith('.ttf') ? 'font/ttf' : 'font/woff2');
 const preloads = assets
-  .filter((f) => /^(sancreek-latin-400-normal|libre-franklin-latin-wght-normal)-.*\.woff2$/.test(f))
-  .map((f) => `<link rel="preload" href="/assets/${f}" as="font" type="font/woff2" crossorigin>`)
+  .filter((f) => /^(mcf-stone-head-.*\.ttf|libre-franklin-latin-wght-normal-.*\.woff2)$/.test(f))
+  .map((f) => `<link rel="preload" href="/assets/${f}" as="font" type="${fontType(f)}" crossorigin>`)
   .join('');
 
 const esc = (s) => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');

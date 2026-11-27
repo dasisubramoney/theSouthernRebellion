@@ -5,15 +5,22 @@ export const piercing = {
   /** From Rio's bio: "Body piercer (2016)". */
   piercingSince: 2016,
 
-  services: todo(
-    'List of piercings offered, with prices',
-    'Seen in Rio\'s grid: eyebrow, above-the-brow studs, nostril hoop, ear cartilage and lobe.',
-  ),
+  /** From the onboarding questionnaire (20 Nov 2026), grouped as the studio grouped them. */
+  services: [
+    { area: 'Ear', piercings: ['Lobe', 'Helix', 'Forward helix', 'Daith', 'Rook', 'Tragus', 'Anti-tragus', 'Conch', 'Flat', 'Snug', 'Industrial'] },
+    { area: 'Body', piercings: ['Nipple', 'Navel', 'Surface bar'] },
+    { area: 'Face', piercings: ['Nose', 'Septum', 'Labret', 'Vertical labret', 'Medusa', 'Lip', 'Bridge', 'Eyebrow'] },
+    { area: 'Oral', piercings: ['Smiley', 'Web'] },
+  ],
+  prices: todo('Price for each piercing, or a photo of the price board', 'The questionnaire lists the piercings but no prices.'),
   jewellery: todo(
     'Jewellery materials stocked (implant-grade titanium? gold?), and whether clients can bring their own',
   ),
   agePolicy: todo('Minimum age for piercing, whether a parent or guardian can consent for minors, and what ID is needed'),
-  downsizing: todo('Whether the studio does downsizing and jewellery changes, and what it costs'),
+  downsizing: todo(
+    'Whether the studio does downsizing and jewellery changes, and what it costs',
+    'The studio\'s piercing aftercare says "Many piercings require a downsize before the piercing is healed."',
+  ),
 
   /**
    * Saturday special, from the "Piercing Special" flyer in the shop grid.

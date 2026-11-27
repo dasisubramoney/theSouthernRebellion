@@ -20,7 +20,7 @@ export function StepList({ steps, className = '', level = 3 }: { steps: readonly
             <span className="ui num">{String(i + 1).padStart(2, '0')}</span>
           </span>
           <div>
-            <Heading className="text-h3 font-semibold">{s.title}</Heading>
+            <Heading className="font-serif text-h3 font-semibold">{s.title}</Heading>
             {isTodo(s.body) ? <TodoNote className="mt-3" item={s.body} /> : <p className="measure mt-2">{s.body}</p>}
           </div>
         </li>

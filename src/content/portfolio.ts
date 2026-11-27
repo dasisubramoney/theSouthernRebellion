@@ -755,8 +755,6 @@ export const portfolio: Record<ArtistSlug, PortfolioEntry[]> = {
       seenIn: 'streetgypsy-20.jpg, row 3, middle',
     }),
   ],
-
-  kimmy: [],
 };
 
 /**

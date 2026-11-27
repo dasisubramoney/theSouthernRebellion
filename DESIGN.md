@@ -6,7 +6,7 @@ The rules for how this site looks and moves. If a change breaks one of these rul
 
 The studio's own graphics set the direction: the "How to Book" post (grey Victorian lettering on black), the black-and-white artist intro cards with white corner frames, Bron's ruled flash sheet, and the logo itself.
 
-- **Base (from "Name Card"):** ink ground, bone type, Sancreek for names and page headings, Libre Franklin for everything else.
+- **Base (from "Name Card"):** ink ground, bone type, MCF Stone Head (the logo's lettering) for names and page headings, Bodoni for subheadings, Libre Franklin for everything else.
 - **Flash and portfolio grids (from "Flash Sheet"):** pieces sit in ruled cells with hairline borders, like a printed flash sheet.
 - **Artists section (from "Studio Roster"):** artist names set very large as a typographic list; the work appears next to the name.
 
@@ -72,6 +72,7 @@ Light mode swaps the tokens, not the components. Every colour on the site goes t
 | `alert-on-bone` | `#B3261E` | `#FF8A7A` | 8.59:1 on a dark band |
 
 Rules:
+- **The header logo** is the wordmark from the studio's "New Logo" (`Wordmark` in `src/components/brand/Logo.tsx`), drawn in the text colour, so it follows the theme.
 - **The logo does not change.** `StudioMark` with its disc always draws a black disc with white daggers (`.logo-disc`, `--logo-black`, `--logo-white`). Without the disc, the daggers follow the text colour, like a one-colour logo.
 - **Never hard-code a colour in a component.** Use the tokens, or light mode breaks.
 - `public/boot.js` sets `data-theme` before first paint, so there is no flash of the wrong theme. `src/lib/theme.ts` handles the switch and the browser's `theme-color`.
@@ -80,14 +81,18 @@ Rules:
 
 | Face | Use | Source |
 |---|---|---|
-| Sancreek 400 | Artist names, page `h1`, section `h2` on feature sections | `@fontsource/sancreek` (OFL) |
+| MCF Stone Head | Artist names, page `h1`, section `h2` on feature sections (`font-display`) | The studio's font, from the onboarding Drive folder: `src/assets/fonts/mcf-stone-head.ttf` |
+| Bodoni Moda (variable) | Subheadings set at `text-h3`: aftercare steps, booking steps, flash, privacy (`font-serif`) | `@fontsource-variable/bodoni-moda` (OFL), standing in for the studio's Bodoni 72 |
 | Libre Franklin (variable, 100–900) | Everything else: body, labels, navigation, forms, numbers | `@fontsource-variable/libre-franklin` (OFL) |
 
-Sancreek is the closest open-licence match to the lettering on the artist cards and the "How to Book" post. Too much of it starts to look like a Wild West saloon sign, so:
+MCF Stone Head is the lettering of the logo ("THE REBELLION"). It has capitals only: lowercase letters come out as small capitals. It is ornate, so:
 
-- Never set Sancreek below `h3` size or in running text.
-- Never set Sancreek in all caps. Its lowercase does the work.
-- At most one Sancreek heading per screen, plus the artist names in the Artists section.
+- Never set it below `h3` size or in running text.
+- Write headings in sentence case; the font turns them into capitals and small capitals.
+- At most one Stone Head heading per screen, plus the artist names in the Artists section.
+- The supplied file is limited (`unicode-range`) to letters, numbers and plain punctuation, because it draws some symbols as the designer's badge. Other characters fall back to Bodoni Moda. The font has no curly quotes or long dashes either, so in Stone Head headings use straight quotes and hyphens, or accept that those marks show in Bodoni. Swap in the licensed file before launch (CLIENT-TODO.md).
+
+Bodoni Moda stands in for Bodoni 72, the face of "TATTOO & PIERCING" in the logo. The Bodoni 72 files supplied are the copies that come with macOS, which may not be put on a website.
 
 ### Scale
 
@@ -95,16 +100,15 @@ Fluid sizes, mobile first. Tokens live in `src/styles/index.css`.
 
 | Token | Size (360px → 1440px) | Leading | Face |
 |---|---|---|---|
-| `text-name` | 56px → 184px | 0.86 | Sancreek |
-| `text-h1` | 46px → 112px | 0.92 | Sancreek |
-| `text-h2` | 34px → 64px | 0.98 | Sancreek or Franklin 600 |
-| `text-h3` | 22px → 30px | 1.15 | Franklin 600 |
+| `text-name` | 56px → 184px | 0.86 | Stone Head |
+| `text-h1` | 46px → 112px | 0.92 | Stone Head |
+| `text-h2` | 34px → 64px | 0.98 | Stone Head or Franklin 600 |
+| `text-h3` | 22px → 30px | 1.15 | Franklin 600, or Bodoni Moda 600 for subheadings |
 | `text-lead` | 19px → 23px | 1.45 | Franklin 380 |
 | `text-body` | 17px | 1.6 | Franklin 380 |
 | `text-small` | 14px | 1.5 | Franklin 400 |
 | `ui` | 14px, sentence case | 1.4 | Franklin 600: nav, buttons, form groups, table labels |
-| `lockup` | 12px, caps, +0.16em | 1.3 | Franklin 560: the wordmark only, as on the studio's own graphics |
-| `sf-tracked` | 12px, caps, +0.18em | 1.3 | Franklin 600: the poster footer only (column titles, "Est.", "Send a booking enquiry"). The one exception to "caps for the wordmark only": the footer is set as a printed poster, where tracked caps are the label style. |
+| `sf-tracked` | 12px, caps, +0.18em | 1.3 | Franklin 600: the poster footer only (column titles, "Est.", "Send a booking enquiry"). The only tracked capitals in Franklin: the footer is set as a printed poster, where tracked caps are the label style. |
 
 - Body text is capped at `measure` (66ch).
 - Figures (prices, hours, dates, phone numbers) use `.num` for tabular lining numerals.
@@ -234,7 +238,7 @@ Don't:
 
 ## The booking enquiry
 
-`/contact` asks one question at a time (`src/components/forms/BookingForm.tsx`): name, contact, artist, tattoo or piercing, placement, colour (tattoos only), the idea, references, timing, and the confirmations. Each step has a number badge, the question in the display face (one per screen, within the Sancreek rule), underline-only fields, a square OK button (Enter works too) and Back. Choices are lettered; pressing the letter picks it. Without JavaScript every step shows as one long form that still submits.
+`/contact` asks one question at a time (`src/components/forms/BookingForm.tsx`): name, contact, artist, tattoo or piercing, placement, colour (tattoos only), the idea, references, timing, and the confirmations. Each step has a number badge, the question in the display face (one per screen, within the Stone Head rule), underline-only fields, a square OK button (Enter works too) and Back. Choices are lettered; pressing the letter picks it. Without JavaScript every step shows as one long form that still submits.
 
 It sits on a full-bleed photo (`media/studio/booking-background.jpg`) under an ink scrim. The scrim is functional, not decoration: 80% on phones; on desktop the form stays in the left half and the scrim eases from 90% to 35% across the photo so its subject shows. Inside, `data-scheme="photo"` keeps the stage dark in both themes and lifts the greys so text stays readable over the photo's lightest part (bone 10:1, hints 6.5:1, field lines 3.4:1, errors 4.9:1). The current photo needs permission or replacing before launch (see CLIENT-TODO.md).
 

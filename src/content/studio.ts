@@ -25,30 +25,29 @@ export const studio = {
     city: 'Johannesburg',
     province: 'Gauteng',
     country: 'ZA',
-    street: pending('Street address and unit number'),
-    postalCode: pending('Postal code'),
-    areaName: pending(
-      'How to name the area: "Fairland" (usual suburb spelling), "Fairlands" (as in the shop bio) or "Randburg" (as in Bron\'s bio)',
-      'Shop bio: "Fairlands on 14th". Bron\'s bio: "Randburg ( jhb)".',
-    ),
+    /** From the onboarding questionnaire (20 Nov 2026): "106 14th Ave, Fairland, Randburg, 2170". */
+    street: '106 14th Ave, Fairland',
+    postalCode: '2170',
+    /** The town in the postal address. The structured data uses it as the locality. */
+    areaName: 'Randburg',
     mapsUrl: pending('Google Maps link for the studio pin'),
     parking: pending('Parking and access notes (gate, buzzer, which floor)'),
   },
 
-  hours: pending(
-    'Studio opening hours',
-    'streetgypsy\'s grid has a "Tues–Sat STUDIO HOURS 10am–5pm" post. The Saturday piercing special runs 10am–5pm.',
-  ),
+  /** From the questionnaire: "10am - 5pm (Tuesday - Saturday) Sundays are appointment based". */
+  hours: 'Tuesday to Saturday, 10am to 5pm. Sundays by appointment.',
+  /** The same hours for the structured data. Sunday is left out because it is by appointment only. */
+  openingHours: [{ days: ['Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'], opens: '10:00', closes: '17:00' }],
 
   ownership: pending(
     'Who owns the studio, and whether ownership should appear on the site',
-    'Bron\'s bio: "Co-Owner of @thesouthernrebellion". No one else states it.',
+    'Bron\'s bio: "Co-Owner of @thesouthernrebellion". The questionnaire names Bramley and Bronwyn as the people who answer enquiries and approve the site, but does not say who owns the studio.',
   ),
 
   tagline: {
     text: 'Tattoos for the unique and curious',
     source: pending(
-      'This line is from streetgypsy\'s bio ("Tattoos for the Unique & Curious"). Confirm the studio can use it as its own line.',
+      'This line is from Kimmy (streetgypsy)\'s bio ("Tattoos for the Unique & Curious"). Confirm the studio can use it as its own line.',
     ),
   },
 
@@ -57,7 +56,10 @@ export const studio = {
     retention: pending('How long booking enquiries and reference images are kept before deletion'),
   },
 
-  established: pending('The year the studio was founded (shown as "Est." in the footer)'),
+  established: pending(
+    'The year the studio was founded (shown as "Est." in the footer)',
+    'The questionnaire (20 Nov 2026) says 7 years in business, so 2019 or 2020.',
+  ),
 
   /** The poster footer (src/components/ui/strobe-footer.tsx). */
   footer: {
@@ -80,17 +82,31 @@ export const studio = {
 
   brandAssets: {
     logo: pending(
-      'Vector logo (SVG, Illustrator or PDF) of the three-dagger mark, to replace the version traced from the Instagram profile picture',
+      'The site name still reads "The Southern Rebellion" (page titles, footer, header link label) while the logo says "The Rebellion". When should the name change?',
+      'The header now shows the "New Logo" wordmark, cut from New Logo.png in the Drive folder. The questionnaire says the name "The Rebellion Tattoo & Piercing" is final and the new brand is ready in Jan 2027; the new domain is not registered yet.',
+    ),
+    vectorLogo: pending(
+      'The logo as SVG, or permission to convert New Logo.pdf to SVG, so it stays sharp at large sizes',
+      'The site uses the 945px PNG, which is sharp in the header but not for a full-screen use.',
     ),
     colours: pending(
-      'Exact black and white of the logo',
-      'Sampled from the profile picture: about #020203 and #FBFBFB. Site uses #0B0B0B and #F5F3EE until confirmed.',
+      'Whether the yellow-green #725E2B should be used on the site, and where',
+      'Questionnaire brand colours: "Black / White / yellow-green - Hex#725E2B". The flower logo uses it. The site uses #0B0B0B and #F5F3EE for the black and white.',
+    ),
+    displayFontLicence: pending(
+      'The licensed MCF Stone Head font file (with its web licence), to replace the one in the Drive folder before launch',
+      'The supplied "MCF StoneHead[63].ttf" replaces @ / & $ [ ] { } | _ ~ ^ and ` with the designer\'s "Mister Chek" badge, which is how free demo copies are marked; a purchased copy from Creative Market does not do this. Creative Market sells desktop and web licences separately. The site uses this file for now, limited to letters, numbers and plain punctuation.',
+    ),
+    bodoniLicence: pending(
+      'A web licence for ITC Bodoni Seventy Two (Monotype), if the studio wants the exact Bodoni 72 rather than Bodoni Moda',
+      'The supplied "Bodoni 72.ttc" and "Bodoni 72 OS.ttc" are the copies that come with macOS (version 13.0d2e1, (c) ITC), which may not be put on a website. The site uses Bodoni Moda (free, open licence), which is very close.',
     ),
     photos: pending('Studio interior photos (high-res originals)'),
   },
 
   securityContact: pending('Email for security reports in /.well-known/security.txt (currently info@)'),
 
-  competitorsOrInfluences: pending('Sites or studios the client likes'),
-  dislikes: pending('Anything the client does not want on the site'),
+  /** From the questionnaire. Reference for the build; not shown on the site. */
+  competitorsOrInfluences: 'Palm Black Tattoos, Be Kind Tattoos, Two Lovers',
+  dislikes: 'A busy site. Visitors should be able to move around easily and find all the information quickly.',
 } as const;

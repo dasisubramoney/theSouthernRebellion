@@ -1,6 +1,6 @@
 import type { Maybe, Todo } from './todo.ts';
 
-export type ArtistSlug = 'bram' | 'bron' | 'theshen' | 'rio' | 'streetgypsy' | 'kimmy';
+export type ArtistSlug = 'bram' | 'bron' | 'theshen' | 'rio' | 'streetgypsy';
 
 export type BookingChannel =
   | { kind: 'form' }

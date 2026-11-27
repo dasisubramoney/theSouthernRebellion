@@ -1,6 +1,20 @@
 @import 'tailwindcss';
-@import '@fontsource/sancreek/400.css';
 @import '@fontsource-variable/libre-franklin/wght.css';
+@import '@fontsource-variable/bodoni-moda/wght.css';
+
+/*
+  The studio's display face, from the onboarding Drive folder (the lettering of the logo).
+  The supplied file swaps some symbols (@ / & $ brackets and others) for the designer's badge,
+  as free demo copies do, so it is limited to the characters it draws properly; everything else
+  falls back to Bodoni Moda. Replace the file with the licensed one before launch (CLIENT-TODO.md).
+*/
+@font-face {
+  font-family: 'MCF Stone Head';
+  src: url('../assets/fonts/mcf-stone-head.ttf') format('truetype');
+  font-display: swap;
+  unicode-range:
+    U+0020-0021, U+0027, U+002C-002E, U+0030-003A, U+003F, U+0041-005A, U+0061-007A;
+}
 
 /*
   Palette: the logo's two colours, plus greys mixed from them.
@@ -25,7 +39,11 @@
   --color-alert-on-bone: #b3261e;
 
   --font-*: initial;
-  --font-display: 'Sancreek', 'Georgia', serif;
+  --font-display: 'MCF Stone Head', 'Bodoni Moda Variable', 'Georgia', serif;
+  /* Bodoni, as in the logo's "TATTOO & PIERCING". Bodoni Moda (OFL) stands in for the studio's
+     Bodoni 72: the supplied Bodoni 72 files are the copies that ship with macOS, which may not
+     be put on a website. */
+  --font-serif: 'Bodoni Moda Variable', 'Georgia', serif;
   --font-text: 'Libre Franklin Variable', 'Libre Franklin', 'Arial', sans-serif;
 
   --text-*: initial;
@@ -281,14 +299,23 @@ html[data-motion='full'] [data-step-active] {
     }
   }
 
-  /* Spaced capitals, as in the "THE SOUTHERN REBELLION / TATTOO COMPANY" lockup on the
-     studio's own graphics. Only for the wordmark. Everything else uses .ui. */
-  .lockup {
-    font-size: var(--text-micro);
-    line-height: var(--text-micro--line-height);
-    letter-spacing: var(--text-micro--letter-spacing);
-    text-transform: uppercase;
-    font-weight: 560;
+  /* The studio's wordmark, drawn in the current text colour so it follows the theme. The image is
+     cut from "New Logo.png" in the onboarding Drive folder by a script (the daggers removed), not redrawn. */
+  .brand-wordmark {
+    display: block;
+    aspect-ratio: 503 / 257;
+    background-color: currentColor;
+    mask-image: url('../assets/brand/rebellion-wordmark.png');
+    mask-position: center;
+    mask-size: contain;
+    mask-repeat: no-repeat;
+  }
+  /* High contrast mode swaps backgrounds for the page colour, which would make the mask invisible. */
+  @media (forced-colors: active) {
+    .brand-wordmark {
+      forced-color-adjust: none;
+      background-color: CanvasText;
+    }
   }
 
   /* Interface text: nav, buttons, form groups, table labels. Sentence case. */

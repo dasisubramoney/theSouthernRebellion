@@ -64,17 +64,16 @@ export const flash: Record<ArtistSlug, FlashEntry[]> = {
       seenIn: 'streetgypsy-20.jpg, row 3, right',
     }),
   ],
-  kimmy: [],
 };
 
 export const flashNotes = {
   howToClaim: todo(
     'How a client claims a flash piece (enquiry form, DM, first come first served?) and whether a deposit holds it',
-    'Bron posts "Available Custom Flash". Theshen and streetgypsy have "Flash" story highlights.',
+    'Bron posts "Available Custom Flash". Theshen and Kimmy (streetgypsy) have "Flash" story highlights.',
   ),
   missing: [
     todo('Theshen\'s current flash (from his "Flash pieces" highlight)'),
-    todo('streetgypsy\'s current flash (from her "Flash" highlight)'),
+    todo('Kimmy (streetgypsy)\'s current flash (from her "Flash" highlight)'),
     todo('Rio\'s flash, if she offers any'),
   ],
 };

@@ -5,35 +5,32 @@ Written by `npm run todos` from the files in `src/content`. Tick items off by up
 ## Studio
 
 - [ ] Company registration number, and whether to show it on the site
-- [ ] Street address and unit number
-- [ ] Postal code
-- [ ] How to name the area: "Fairland" (usual suburb spelling), "Fairlands" (as in the shop bio) or "Randburg" (as in Bron's bio)
-  - Seen so far: Shop bio: "Fairlands on 14th". Bron's bio: "Randburg ( jhb)".
 - [ ] Google Maps link for the studio pin
 - [ ] Parking and access notes (gate, buzzer, which floor)
-- [ ] Studio opening hours
-  - Seen so far: streetgypsy's grid has a "Tues–Sat STUDIO HOURS 10am–5pm" post. The Saturday piercing special runs 10am–5pm.
 - [ ] Who owns the studio, and whether ownership should appear on the site
-  - Seen so far: Bron's bio: "Co-Owner of @thesouthernrebellion". No one else states it.
-- [ ] This line is from streetgypsy's bio ("Tattoos for the Unique & Curious"). Confirm the studio can use it as its own line.
+  - Seen so far: Bron's bio: "Co-Owner of @thesouthernrebellion". The questionnaire names Bramley and Bronwyn as the people who answer enquiries and approve the site, but does not say who owns the studio.
+- [ ] This line is from Kimmy (streetgypsy)'s bio ("Tattoos for the Unique & Curious"). Confirm the studio can use it as its own line.
 - [ ] Name and contact of the POPIA information officer
 - [ ] How long booking enquiries and reference images are kept before deletion
 - [ ] The year the studio was founded (shown as "Est." in the footer)
+  - Seen so far: The questionnaire (20 Nov 2026) says 7 years in business, so 2019 or 2020.
 - [ ] Who took the booking-form background photo (tattooed artist painting at a trolley), and written permission to use it on the site. Or replace it with a studio photo, ideally 2000px wide or more.
   - Seen so far: Supplied as a 736 x 981 JPEG, which is the size Pinterest serves; it looks soft on large screens.
-- [ ] Vector logo (SVG, Illustrator or PDF) of the three-dagger mark, to replace the version traced from the Instagram profile picture
-- [ ] Exact black and white of the logo
-  - Seen so far: Sampled from the profile picture: about #020203 and #FBFBFB. Site uses #0B0B0B and #F5F3EE until confirmed.
+- [ ] The site name still reads "The Southern Rebellion" (page titles, footer, header link label) while the logo says "The Rebellion". When should the name change?
+  - Seen so far: The header now shows the "New Logo" wordmark, cut from New Logo.png in the Drive folder. The questionnaire says the name "The Rebellion Tattoo & Piercing" is final and the new brand is ready in Jan 2027; the new domain is not registered yet.
+- [ ] The logo as SVG, or permission to convert New Logo.pdf to SVG, so it stays sharp at large sizes
+  - Seen so far: The site uses the 945px PNG, which is sharp in the header but not for a full-screen use.
+- [ ] Whether the yellow-green #725E2B should be used on the site, and where
+  - Seen so far: Questionnaire brand colours: "Black / White / yellow-green - Hex#725E2B". The flower logo uses it. The site uses #0B0B0B and #F5F3EE for the black and white.
+- [ ] The licensed MCF Stone Head font file (with its web licence), to replace the one in the Drive folder before launch
+  - Seen so far: The supplied "MCF StoneHead[63].ttf" replaces @ / & $ [ ] { } | _ ~ ^ and ` with the designer's "Mister Chek" badge, which is how free demo copies are marked; a purchased copy from Creative Market does not do this. Creative Market sells desktop and web licences separately. The site uses this file for now, limited to letters, numbers and plain punctuation.
+- [ ] A web licence for ITC Bodoni Seventy Two (Monotype), if the studio wants the exact Bodoni 72 rather than Bodoni Moda
+  - Seen so far: The supplied "Bodoni 72.ttc" and "Bodoni 72 OS.ttc" are the copies that come with macOS (version 13.0d2e1, (c) ITC), which may not be put on a website. The site uses Bodoni Moda (free, open licence), which is very close.
 - [ ] Studio interior photos (high-res originals)
 - [ ] Email for security reports in /.well-known/security.txt (currently info@)
-- [ ] Sites or studios the client likes
-- [ ] Anything the client does not want on the site
 
 ## Bram
 
-- [ ] Bram's full name for the page, if wanted
-  - Seen so far: Handle is @bram_luttig_tattoos
-- [ ] Bram's specialities, in their own words
 - [ ] Short bio for Bram, in their own words
 - [ ] Year Bram started tattooing
 - [ ] Portrait photo of Bram (high-res original, not an Instagram screenshot)
@@ -45,13 +42,10 @@ Written by `npm run todos` from the files in `src/content`. Tick items off by up
 
 ## Bron
 
-- [ ] Bron's specialities, in their own words
 - [ ] Short bio for Bron, in their own words
 - [ ] Year Bron started tattooing
 - [ ] Portrait photo of Bron (high-res original, not an Instagram screenshot)
 - [ ] How Bron takes bookings, and how custom flash is claimed
-- [ ] Does Bron pierce?
-  - Seen so far: One photo in her grid shows her working on a client's face. It could be a piercing or a facial tattoo.
 - [ ] Whether "Co-Owner" should appear on her page
 
 ## Theshen
@@ -65,52 +59,40 @@ Written by `npm run todos` from the files in `src/content`. Tick items off by up
 
 ## Rio
 
-- [ ] Rio's specialities, in their own words
 - [ ] Short bio for Rio, in their own words
 - [ ] Portrait photo of Rio (high-res original, not an Instagram screenshot)
 - [ ] How Rio takes tattoo bookings and piercing appointments (her bio gives no booking route)
 - [ ] Whether to link her personal account from the site, or only the art account
 
-## streetgypsy
+## Kimmy
 
-- [ ] streetgypsy's real name, and how she wants to be credited
-  - Seen so far: Profile name: "streetgypsy Tattoo | JHB"
-- [ ] Short bio for streetgypsy, in their own words
-- [ ] Year streetgypsy started tattooing
-- [ ] Portrait photo of streetgypsy (high-res original, not an Instagram screenshot)
-- [ ] streetgypsy's booking terms and day rate
+- [ ] Kimmy's surname, if she wants it in the site's structured data
+  - Seen so far: Questionnaire: "Kimmy (streetgypsy)"
+- [ ] Short bio for Kimmy, in their own words
+- [ ] Year Kimmy started tattooing
+- [ ] Portrait photo of Kimmy (high-res original, not an Instagram screenshot)
+- [ ] Kimmy's booking terms and day rate
   - Seen so far: She has a "My DAY RATES as a tattoo artist with an interest in mixing styles" post. Only the cover was in the screenshots.
 - [ ] The number behind the WhatsApp button on her profile: the shop number or her own?
 - [ ] Her "Reviews" highlight: may the site quote any of them, with the client's permission?
 
-## Kimmy (not published)
-
-- [ ] Kimmy's preferred public name
-- [ ] Kimmy's specialities, in their own words
-- [ ] Short bio for Kimmy, in their own words
-- [ ] Year Kimmy started tattooing
-- [ ] Portrait photo of Kimmy (high-res original, not an Instagram screenshot)
-- [ ] How Kimmy takes bookings
-- [ ] Does Kimmy pierce?
-- [ ] Is Kimmy a separate resident artist, or the same person as streetgypsy?
-  - Seen so far: The shop grid has a "KIMMY" intro card in the same series as the other artists. Kimmy is not in the shop bio's artist list.
-
 ## Flash
 
 - [ ] How a client claims a flash piece (enquiry form, DM, first come first served?) and whether a deposit holds it
-  - Seen so far: Bron posts "Available Custom Flash". Theshen and streetgypsy have "Flash" story highlights.
+  - Seen so far: Bron posts "Available Custom Flash". Theshen and Kimmy (streetgypsy) have "Flash" story highlights.
 - [ ] Theshen's current flash (from his "Flash pieces" highlight)
-- [ ] streetgypsy's current flash (from her "Flash" highlight)
+- [ ] Kimmy (streetgypsy)'s current flash (from her "Flash" highlight)
 - [ ] Rio's flash, if she offers any
 - [ ] Confirm which of these designs seen on Instagram are available flash, with size and price: Woman with flower headdress, Crescent moon face, Ornament sheet, Art nouveau woman, Moth-winged mouse, Woman with pomegranates
 
 ## Piercing
 
-- [ ] List of piercings offered, with prices
-  - Seen so far: Seen in Rio's grid: eyebrow, above-the-brow studs, nostril hoop, ear cartilage and lobe.
+- [ ] Price for each piercing, or a photo of the price board
+  - Seen so far: The questionnaire lists the piercings but no prices.
 - [ ] Jewellery materials stocked (implant-grade titanium? gold?), and whether clients can bring their own
 - [ ] Minimum age for piercing, whether a parent or guardian can consent for minors, and what ID is needed
 - [ ] Whether the studio does downsizing and jewellery changes, and what it costs
+  - Seen so far: The studio's piercing aftercare says "Many piercings require a downsize before the piercing is healed."
 - [ ] Confirm the special is still running, the price, and the jewellery wording. "Silver titanium" is not a material: is it implant-grade titanium in a silver finish?
   - Seen so far: Flyer: "Every Saturday · 10am–5pm · R550 for two standard piercings · Includes standard silver titanium jewellery · Book now – info@thesouthernrebellion.co.za"
 - [ ] Which piercings count as "standard" for the special
@@ -118,7 +100,8 @@ Written by `npm run todos` from the files in `src/content`. Tick items off by up
 
 ## Booking
 
-- [ ] Step, "Hear back from the artist": How and when the artist replies (WhatsApp? email? how long it usually takes)
+- [ ] Step, "Hear back from the artist": How and when the reply comes (WhatsApp? email? how long it usually takes), and who sends it: the artist, or Bram and Bron for the studio
+  - Seen so far: The questionnaire says Bramley and Bronwyn answer enquiries. The site sends each enquiry as that artist's own form and says it is "with" the artist.
 - [ ] Step, "Consult and design": Is there a consult? Is it free? When is the design shown: before the day, or on the day?
 - [ ] Step, "Pay the deposit": How to pay the deposit (EFT? in studio?) and what happens next
 - [ ] Step, "Come in for your session": What to bring (ID, food, water), arriving on time, how long sessions run
@@ -129,7 +112,7 @@ Written by `npm run todos` from the files in `src/content`. Tick items off by up
 - [ ] No-show policy
 - [ ] Shop minimum
 - [ ] Day rates per artist, if they should be published
-  - Seen so far: streetgypsy has a "My DAY RATES" post; only its cover was in the screenshots.
+  - Seen so far: Kimmy (streetgypsy) has a "My DAY RATES" post; only its cover was in the screenshots.
 - [ ] Exact age policy for tattoos and what ID is required
 - [ ] Whether the studio takes cover-ups and reworks, and how to enquire
 - [ ] Payment methods accepted in the studio
@@ -139,19 +122,17 @@ Written by `npm run todos` from the files in `src/content`. Tick items off by up
 ## Aftercare
 
 - [ ] Who at the studio signs off the aftercare text, and the date it was last reviewed
-- [ ] Tattoo, "The first few hours": Wrap or film: how long to keep it on, how to take it off
-- [ ] Tattoo, "Washing": How often, with what
-- [ ] Tattoo, "Moisturising": Which products the studio recommends, how much, how often
-- [ ] Tattoo, "The first two weeks": What is normal: peeling, itching, cloudiness
-- [ ] Tattoo, "What to avoid": Sun, swimming, gym, scratching, tight clothes: for how long
+- [ ] Tattoo, "What to avoid": Sun: how long to keep the tattoo out of the sun, and sunscreen once it has healed
+  - Seen so far: The tattoo aftercare PDF does not mention sun.
 - [ ] Tattoo, "Touch-ups": Touch-up policy: free within a period? how to book
 - [ ] Tattoo, "When to call us, and when to see a doctor": Signs that need the studio, and signs that need medical help
-- [ ] Piercing, "Cleaning": Saline or other: how often, how
+  - Seen so far: The tattoo aftercare PDF does not cover this.
 - [ ] Piercing, "Healing times": Typical healing times per piercing, from the studio
-- [ ] Piercing, "Sleeping and day-to-day": Sleeping on it, phones and earrings, makeup, hats
-- [ ] Piercing, "What to avoid": Swimming, twisting, changing jewellery early: for how long
-- [ ] Piercing, "Downsizing and changing jewellery": When to come back to downsize, and when it is safe to change jewellery
-- [ ] Piercing, "When to call us, and when to see a doctor": Signs that need the studio, and signs that need medical help
+  - Seen so far: The piercing aftercare PDF does not give healing times.
+- [ ] Piercing, "Jewellery and downsizing": When to come back to downsize, and when it is safe to change jewellery
+  - Seen so far: The PDF says many piercings need a downsize before they are healed, but not when.
+- [ ] Piercing, "When to call us, and when to see a doctor": Other signs that need the studio, and signs that need medical help
+  - Seen so far: The piercing aftercare PDF covers only a suspected infection.
 
 ## Portfolio photos
 

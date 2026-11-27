@@ -6,20 +6,20 @@ const shopEmail = { kind: 'email', user: 'info', domain: 'thesouthernrebellion.c
 
 const portraitTodo = (name: string) => todo(`Portrait photo of ${name} (high-res original, not an Instagram screenshot)`);
 const bioTodo = (name: string) => todo(`Short bio for ${name}, in their own words`);
-const stylesTodo = (name: string) => todo(`${name}'s specialities, in their own words`);
 
 export const artists: Artist[] = [
   {
     slug: 'bram',
     name: 'Bram',
-    fullName: todo('Bram\'s full name for the page, if wanted', 'Handle is @bram_luttig_tattoos'),
+    /** As he signed the onboarding questionnaire. Used only in structured data. */
+    fullName: 'Bramley Luttig',
     pronouns: null,
     instagram: 'bram_luttig_tattoos',
     otherAccounts: [],
     bioLines: ['Tattoo artist', '@thesouthernrebellion', '@proper.tattoosupply – Pro Artist', 'Bookings / enquiries: 064 507 5342'],
     introQuote: null,
-    styles: ['Black and grey illustrative', 'Ornamental', 'Feminine figures and faces', 'Florals', 'Neo-traditional colour'],
-    stylesInOwnWords: stylesTodo('Bram'),
+    styles: ['Neo-traditional', 'Neo-Japanese', 'Geometric', 'Black and grey'],
+    stylesInOwnWords: 'Neo-Traditional / Neo-Japanese / Geometric / Black & Grey',
     bio: bioTodo('Bram'),
     yearsTattooing: todo('Year Bram started tattooing'),
     portrait: portraitTodo('Bram'),
@@ -46,17 +46,15 @@ export const artists: Artist[] = [
     otherAccounts: [],
     bioLines: ['Tattoo artist', 'Co-Owner of @thesouthernrebellion', 'Randburg (jhb)', 'Email for bookings & enquiries: info@thesouthernrebellion.co.za'],
     introQuote: null,
-    styles: ['Fine-line ornamental', 'Art nouveau panels', 'Small decorative pieces', 'Colour florals', 'Script'],
-    stylesInOwnWords: stylesTodo('Bron'),
+    styles: ['Blackwork', 'Ornamental', 'Colour'],
+    stylesInOwnWords: 'Blackwork / Ornamental / Colour',
     bio: bioTodo('Bron'),
     yearsTattooing: todo('Year Bron started tattooing'),
     portrait: portraitTodo('Bron'),
     booking: [{ kind: 'form' }, shopEmail],
     bookingNote: todo('How Bron takes bookings, and how custom flash is claimed'),
-    pierces: todo(
-      'Does Bron pierce?',
-      'One photo in her grid shows her working on a client\'s face. It could be a piercing or a facial tattoo.',
-    ),
+    /** The questionnaire names Rio as the only piercer. */
+    pierces: false,
     ownWords: ['Available custom flash', 'Some of the smaller tattoos I have done'],
     published: true,
     openQuestions: [todo('Whether "Co-Owner" should appear on her page')],
@@ -70,8 +68,8 @@ export const artists: Artist[] = [
     otherAccounts: [],
     bioLines: ['Black and grey realism artist in JHB', '@thesouthernrebellion', 'To book: WhatsApp 0645075342 or DM me'],
     introQuote: 'Black and grey realism artist in JHB',
-    styles: ['Black and grey realism', 'Sleeves', 'Back pieces', 'Portraits', 'Animals'],
-    stylesInOwnWords: 'Black and grey realism',
+    styles: ['Fine-line', 'Black and grey realism'],
+    stylesInOwnWords: 'Fine-line / Black & Grey Realism',
     bio: bioTodo('Theshen'),
     yearsTattooing: todo('Year Theshen started tattooing'),
     portrait: portraitTodo('Theshen'),
@@ -97,8 +95,8 @@ export const artists: Artist[] = [
     ],
     bioLines: ['Tattoo Artist & Body Piercer', '@thesouthernrebellion', 'Tattooing since Oct 2017', 'Body piercer (2016)'],
     introQuote: null,
-    styles: ['Fine-line botanicals', 'Colour illustrative', 'Cute characters', 'Mandalas', 'Script', 'Body piercing'],
-    stylesInOwnWords: stylesTodo('Rio'),
+    styles: ['Illustrative', 'Body piercing'],
+    stylesInOwnWords: 'Illustrative',
     bio: bioTodo('Rio'),
     yearsTattooing: 'Tattooing since October 2017. Piercing since 2016.',
     portrait: portraitTodo('Rio'),
@@ -111,21 +109,25 @@ export const artists: Artist[] = [
   },
   {
     slug: 'streetgypsy',
-    name: 'streetgypsy',
-    fullName: todo('streetgypsy\'s real name, and how she wants to be credited', 'Profile name: "streetgypsy Tattoo | JHB"'),
+    /**
+     * The questionnaire lists her as "Kimmy (streetgypsy)": Kimmy and streetgypsy are the same artist.
+     * The slug stays "streetgypsy" so existing links (/#artist-streetgypsy, /artists/streetgypsy) keep working.
+     */
+    name: 'Kimmy',
+    fullName: todo('Kimmy\'s surname, if she wants it in the site\'s structured data', 'Questionnaire: "Kimmy (streetgypsy)"'),
     pronouns: null,
     instagram: 'streetgypsy_tattoo',
     otherAccounts: [],
     bioLines: ['Tattoos for the Unique & Curious', 'Books are open', 'South Africa Johannesburg', 'DM for availability'],
     introQuote: 'Tattoos for the Unique & Curious',
-    styles: ['Blackwork', 'Dotwork', 'Skulls and bone', 'Neo-traditional', 'Traditional colour', 'Mixed styles'],
-    stylesInOwnWords: 'A tattoo artist with an interest in mixing styles',
-    bio: bioTodo('streetgypsy'),
-    yearsTattooing: todo('Year streetgypsy started tattooing'),
-    portrait: portraitTodo('streetgypsy'),
+    styles: ['Traditional', 'Realism', 'Combining the styles'],
+    stylesInOwnWords: 'Traditional / Realism..... combining the styles',
+    bio: bioTodo('Kimmy'),
+    yearsTattooing: todo('Year Kimmy started tattooing'),
+    portrait: portraitTodo('Kimmy'),
     booking: [{ kind: 'form' }, { kind: 'instagram-dm', handle: 'streetgypsy_tattoo' }],
     bookingNote: todo(
-      'streetgypsy\'s booking terms and day rate',
+      'Kimmy\'s booking terms and day rate',
       'She has a "My DAY RATES as a tattoo artist with an interest in mixing styles" post. Only the cover was in the screenshots.',
     ),
     pierces: false,
@@ -134,32 +136,6 @@ export const artists: Artist[] = [
     openQuestions: [
       todo('The number behind the WhatsApp button on her profile: the shop number or her own?'),
       todo('Her "Reviews" highlight: may the site quote any of them, with the client\'s permission?'),
-    ],
-  },
-  {
-    slug: 'kimmy',
-    name: 'Kimmy',
-    fullName: todo('Kimmy\'s preferred public name'),
-    pronouns: null,
-    instagram: '',
-    otherAccounts: [],
-    bioLines: [],
-    introQuote: null,
-    styles: [],
-    stylesInOwnWords: stylesTodo('Kimmy'),
-    bio: bioTodo('Kimmy'),
-    yearsTattooing: todo('Year Kimmy started tattooing'),
-    portrait: portraitTodo('Kimmy'),
-    booking: [{ kind: 'form' }],
-    bookingNote: todo('How Kimmy takes bookings'),
-    pierces: todo('Does Kimmy pierce?'),
-    ownWords: [],
-    published: false,
-    openQuestions: [
-      todo(
-        'Is Kimmy a separate resident artist, or the same person as streetgypsy?',
-        'The shop grid has a "KIMMY" intro card in the same series as the other artists. Kimmy is not in the shop bio\'s artist list.',
-      ),
     ],
   },
 ];

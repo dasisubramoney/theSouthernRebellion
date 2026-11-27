@@ -158,7 +158,7 @@ function ArtistFlash({ artist }: { artist: Artist }) {
   const list = (contentPreview ? flash[artist.slug] : visibleFlash(artist.slug)).slice(0, 3);
   return (
     <div role="group" aria-labelledby={`flash-${artist.slug}`} className="mt-16 md:mt-20">
-      <h4 id={`flash-${artist.slug}`} className="border-b border-coal pb-4 text-h3 font-semibold">
+      <h4 id={`flash-${artist.slug}`} className="border-b border-coal pb-4 font-serif text-h3 font-semibold">
         Flash
       </h4>
       <ul className="mt-6 grid grid-cols-2 border-l border-t border-coal md:grid-cols-3">

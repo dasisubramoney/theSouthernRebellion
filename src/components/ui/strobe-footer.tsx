@@ -456,7 +456,7 @@ export function StrobeFooter({ wordmark = studio.footer.wordmark }: Props) {
       items: [
         <TodoOr key="street" value={studio.location.street} />,
         <span key="area">
-          {studio.location.centre}, {studio.location.city}
+          {studio.location.areaName}, {studio.location.postalCode}
         </span>,
         <TodoOr key="hours" value={studio.hours} />,
         <ExternalLink key="wa" href={studio.whatsapp} className="whitespace-nowrap">

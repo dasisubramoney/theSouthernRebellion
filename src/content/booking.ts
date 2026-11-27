@@ -16,7 +16,13 @@ export const booking = {
       title: 'Send an enquiry to your artist',
       body: 'Use the form below. Tell us the placement, the rough size, colour or black and grey, and add up to three reference images.',
     },
-    { title: 'Hear back from the artist', body: todo('How and when the artist replies (WhatsApp? email? how long it usually takes)') },
+    {
+      title: 'Hear back from the artist',
+      body: todo(
+        'How and when the reply comes (WhatsApp? email? how long it usually takes), and who sends it: the artist, or Bram and Bron for the studio',
+        'The questionnaire says Bramley and Bronwyn answer enquiries. The site sends each enquiry as that artist\'s own form and says it is "with" the artist.',
+      ),
+    },
     { title: 'Consult and design', body: todo('Is there a consult? Is it free? When is the design shown: before the day, or on the day?') },
     { title: 'Pay the deposit', body: todo('How to pay the deposit (EFT? in studio?) and what happens next') },
     { title: 'Come in for your session', body: todo('What to bring (ID, food, water), arriving on time, how long sessions run') },
@@ -31,7 +37,7 @@ export const booking = {
     minimum: todo('Shop minimum'),
     dayRates: todo(
       'Day rates per artist, if they should be published',
-      'streetgypsy has a "My DAY RATES" post; only its cover was in the screenshots.',
+      'Kimmy (streetgypsy) has a "My DAY RATES" post; only its cover was in the screenshots.',
     ),
     age: todo('Exact age policy for tattoos and what ID is required'),
     coverUps: todo('Whether the studio takes cover-ups and reworks, and how to enquire'),

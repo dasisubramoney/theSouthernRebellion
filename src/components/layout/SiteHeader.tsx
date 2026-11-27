@@ -1,6 +1,6 @@
 import { useEffect, useId, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { StudioMark } from '../brand/StudioMark';
+import { Wordmark } from '../brand/Logo';
 import { Dagger } from '../brand/Dagger';
 import { useActiveSection } from '../../lib/activeSection';
 import { press } from '../../lib/press';
@@ -54,13 +54,8 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 border-b border-coal bg-ink">
       <div className="shell flex h-16 items-center justify-between gap-6 md:h-20">
-        <Link to="/" className="flex items-center gap-3" aria-label="The Southern Rebellion, home">
-          <StudioMark className="size-10 text-bone md:size-12" disc={false} />
-          <span className="lockup hidden leading-tight sm:block" aria-hidden="true">
-            The Southern
-            <br />
-            Rebellion
-          </span>
+        <Link to="/" className="flex items-center" aria-label="The Rebellion Tattoo & Piercing, home">
+          <Wordmark className="h-11 text-bone md:h-14" />
         </Link>
 
         <nav aria-label="Main" className="hidden lg:block">

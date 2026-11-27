@@ -15,7 +15,7 @@ export function artistPerson(a: Artist) {
   };
 }
 
-/** TattooParlor (a LocalBusiness subtype). Street address is added once the client supplies it. */
+/** TattooParlor (a LocalBusiness subtype), with the address and opening hours from the studio content. */
 export function studioSchema() {
   const street = known(studio.location.street);
   const postal = known(studio.location.postalCode);
@@ -33,10 +33,16 @@ export function studioSchema() {
       '@type': 'PostalAddress',
       ...(street ? { streetAddress: street } : {}),
       ...(postal ? { postalCode: postal } : {}),
-      addressLocality: studio.location.city,
+      addressLocality: known(studio.location.areaName) ?? studio.location.city,
       addressRegion: studio.location.province,
       addressCountry: studio.location.country,
     },
+    openingHoursSpecification: studio.openingHours.map((h) => ({
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: h.days,
+      opens: h.opens,
+      closes: h.closes,
+    })),
     sameAs: [instagramUrl(studio.instagram)],
     // The artists' Person entries (artistPerson, above) are left out while there are no artist pages.
     // To restore: add `employee: publishedArtists.map(artistPerson)` here once the pages are back.
